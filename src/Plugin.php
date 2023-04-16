@@ -109,7 +109,7 @@ class Plugin {
 		wp_enqueue_script(
 			'wpcomsp-qllm',
 			WPCOMSP_QLLM_URL . 'assets/js/build/frontend.js',
-			array( 'jquery' ),
+			array(),
 			$deps['version'],
 			true
 		);
@@ -204,11 +204,12 @@ class Plugin {
 		// Build list of load more links.
 		for ( $i = $page + 1; $i <= $block_query->max_num_pages; $i++ ) {
 			$buttons .= sprintf(
-				'<a class="%s" href="%s" data-loading-text="%s">%s</a>',
+				'<a class="%s" href="?%s=%d" data-loading-text="%s">%s</a>',
 				'wp-block-button__link wp-element-button wp-load-more__button',
-				'?' . $page_key . '=' . $i,
-				$attributes['loadingText'],
-				$attributes['loadMoreText']
+				esc_html( $page_key ),
+				(int) $i,
+				esc_html( $attributes['loadingText'] ),
+				esc_html( $attributes['loadMoreText'] )
 			);
 		}
 

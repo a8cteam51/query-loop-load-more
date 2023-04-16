@@ -3,38 +3,47 @@ var __webpack_exports__ = {};
 /*!***********************************!*\
   !*** ./assets/js/src/frontend.js ***!
   \***********************************/
-jQuery(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
   "use strict";
 
-  let $buttons = jQuery('.wp-load-more__button');
-  if ($buttons.length) {
-    $buttons.on('click', function (e) {
-      e.preventDefault();
-      let $this = jQuery(this),
-        $container = $this.parents('.wp-block-query').find('.wp-block-post-template'),
-        $url = $this.attr('href');
+  let buttons = document.querySelectorAll('.wp-load-more__button');
+  if (buttons.length) {
+    buttons.forEach(function (button) {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        let thisButton = e.target,
+          container = thisButton.closest('.wp-block-query').querySelector('.wp-block-post-template'),
+          url = thisButton.getAttribute('href');
 
-      // Update button text.
-      $this.text($this.attr('data-loading-text'));
+        // Update button text.
+        thisButton.innerText = thisButton.getAttribute('data-loading-text');
 
-      // Load posts via AJAX from the button URL.
-      jQuery.ajax({
-        url: $url,
-        type: 'GET',
-        dataType: 'html',
-        success: function (data) {
-          // Get the posts container.
-          let $posts = jQuery(data).find('.wp-block-post-template');
+        // Load posts via AJAX from the button URL.
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            // Get the posts container.
+            let temp = document.createElement('div');
+            temp.innerHTML = xhr.response;
+            let posts = temp.querySelector('.wp-block-post-template');
 
-          // Update the posts container.
-          $container.append($posts.html());
+            // Update the posts container.
+            container.insertAdjacentHTML('beforeend', posts.innerHTML);
 
-          // Update the window URL.
-          window.history.pushState({}, "", $url);
-        },
-        complete: function () {
-          $this.remove();
-        }
+            // Update the window URL.
+            window.history.pushState({}, "", url);
+          } else {
+            console.error(xhr.statusText);
+          }
+        };
+        xhr.onerror = function () {
+          console.error(xhr.statusText);
+        };
+        xhr.send();
+
+        // Remove button.
+        thisButton.remove();
       });
     });
   }

@@ -1,7 +1,7 @@
 {
-  "name": "team51-plugin-scaffold",
+  "name": "team51-plugin-qllm",
   "version": "1.0.0",
-  "description": "A scaffold for WP.com Special Projects plugins",
+  "description": "A qllm for WP.com Special Projects plugins",
   "author": {
     "name": "WordPress.com Special Projects Team",
     "url": "https://wpspecialprojects.wordpress.com"
@@ -10,9 +10,9 @@
   "keywords": [
     "wordpress"
   ],
-  "homepage": "https://wordpress.org/plugins/team51-plugin-scaffold",
-  "repository": "https://github.com/a8cteam51/team51-plugin-scaffold",
-  "bugs": "https://github.com/a8cteam51/team51-plugin-scaffold/issues",
+  "homepage": "https://wordpress.org/plugins/team51-plugin-qllm",
+  "repository": "https://github.com/a8cteam51/team51-plugin-qllm",
+  "bugs": "https://github.com/a8cteam51/team51-plugin-qllm/issues",
   "engines": {
     "node": ">=18.15",
     "npm": ">=9.5"

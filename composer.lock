@@ -1753,7 +1753,7 @@
                 "wp-cli/wp-cli": "^2.5"
             },
             "require-dev": {
-                "wp-cli/scaffold-command": "^1.2 || ^2",
+                "wp-cli/qllm-command": "^1.2 || ^2",
                 "wp-cli/wp-cli-tests": "^3.1"
             },
             "suggest": {

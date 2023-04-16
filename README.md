@@ -18,7 +18,7 @@ You'll need to update the following fields in the main PHP file's header:
 
 ## Folder Structure
 
-This scaffold has the following folder structure:
+This qllm has the following folder structure:
 
 ```
 plugin-name/
@@ -58,7 +58,7 @@ plugin-name/
 
 Develop your plugin by adding the necessary functionality by creating new files within the includes folder. Remember to enqueue your styles and scripts within the assets folder.
 
-Follow the WordPress Coding Standards for PHP, CSS, and JavaScript when writing your code. You can read more about linting and formatting your code in the [Team51 Project Scaffold](https://github.com/a8cteam51/team51-project-scaffold#code-style--quality).
+Follow the WordPress Coding Standards for PHP, CSS, and JavaScript when writing your code. You can read more about linting and formatting your code in the [Team51 Project Scaffold](https://github.com/a8cteam51/team51-project-qllm#code-style--quality).
 
 ## Documentation
 

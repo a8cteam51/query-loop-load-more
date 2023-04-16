@@ -16,34 +16,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Update button text.
                 thisButton.innerText = thisButton.getAttribute('data-loading-text');
 
-                // Load posts via AJAX from the button URL.
-                let xhr = new XMLHttpRequest();
-                xhr.open('GET', url);
-                xhr.onload = function () {
-                    if (xhr.status === 200) {
-
-                        // Get the posts container.
-                        let temp = document.createElement('div');
-                        temp.innerHTML = xhr.response;
-                        let posts = temp.querySelector('.wp-block-post-template');
-
-                        // Update the posts container.
-                        container.insertAdjacentHTML('beforeend', posts.innerHTML);
-
-                        // Update the window URL.
-                        window.history.pushState({}, "", url);
-
-                    } else {
-                        console.error(xhr.statusText);
+                // Load posts via fetch from the button URL.
+                fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'text/html'
                     }
-                };
-                xhr.onerror = function () {
-                    console.error(xhr.statusText);
-                };
-                xhr.send();
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Network response was not ok.');
+                    }
+                }).then(function (data) {
 
-                // Remove button.
-                thisButton.remove();
+                    // Get the posts container.
+                    let temp = document.createElement('div');
+                    temp.innerHTML = data;
+                    let posts = temp.querySelector('.wp-block-post-template');
+
+                    // Update the posts container.
+                    container.insertAdjacentHTML('beforeend', posts.innerHTML);
+
+                    // Update the window URL.
+                    window.history.pushState({}, "", url);
+
+                    // Remove button.
+                    thisButton.remove();
+                }).catch(function (error) {
+                    console.error('Fetch error:', error);
+                });
             });
         });
     }

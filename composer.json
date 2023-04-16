@@ -1,9 +1,9 @@
 {
-  "name": "a8cteam51/team51-plugin-qllm",
+  "name": "a8cteam51/query-loop-load-more",
   "type": "wordpress-plugin",
 
-  "description": "A qllm for WP.com Special Projects plugins.",
-  "homepage": "https://github.com/a8cteam51/team51-plugin-qllm",
+  "description": "Adds a load more option to the Query Loop Pagination block in Gutenberg.",
+  "homepage": "https://github.com/a8cteam51/query-loop-load-more",
   "license": "GPL-2.0-or-later",
   "authors": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "name": "Contributors",
-      "homepage": "https://github.com/a8cteam51/team51-plugin-qllm/graphs/contributors"
+      "homepage": "https://github.com/a8cteam51/query-loop-load-more/graphs/contributors"
     }
   ],
 
@@ -48,7 +48,7 @@
 
   "autoload": {
     "psr-4": {
-      "WPcomSpecialProjects\\Scaffold\\": "src/"
+      "WPcomSpecialProjects\\Qllm\\": "src/"
     }
   },
   "autoload-dev": {

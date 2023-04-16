@@ -9,3 +9,14 @@
 		pointer-events: none;
 	}
 }
+
+.wp-load-more__button {
+	display: flex;
+	align-items: center;
+
+	gap: var(--wp--preset--spacing--30);
+
+	+ .wp-load-more__button {
+		display: none;
+	}
+}

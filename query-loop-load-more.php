@@ -42,7 +42,7 @@ if ( ! is_file( WPCOMSP_QLLM_PATH . '/vendor/autoload.php' ) ) {
 	add_action(
 		'admin_notices',
 		static function() {
-			$message      = __( 'It seems like <strong>Team51 Plugin Scaffold</strong> is corrupted. Please reinstall!', 'wpcomsp-qllm' );
+			$message      = __( 'It seems like <strong>Query Loop Load More</strong> is corrupted. Please reinstall!', 'wpcomsp-qllm' );
 			$html_message = wp_sprintf( '<div class="error notice wpcomsp-qllm-error">%s</div>', wpautop( $message ) );
 			echo wp_kses_post( $html_message );
 		}
@@ -65,5 +65,5 @@ if ( $wpcomsp_qllm_requirements instanceof WP_Error ) {
 	);
 } else {
 	require_once WPCOMSP_QLLM_PATH . 'functions.php';
-	add_action( 'plugins_loaded', array( wpcomsp_qllm_get_plugin_instance(), 'maybe_initialize' ) );
+	add_action( 'plugins_loaded', array( wpcomsp_qllm_get_plugin_instance(), 'initialize' ) );
 }

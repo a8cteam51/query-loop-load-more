@@ -47,6 +47,14 @@ addFilter(
 				setAttributes({ loadMore: !attributes.loadMore });
 			}
 
+			const arrowMap = {
+				none: '',
+				arrow: '→',
+				chevron: '»',
+			};
+
+			const displayArrow = arrowMap[ attributes.paginationArrow ];
+
 			return (
 				<>
 					<BlockControls>
@@ -62,9 +70,19 @@ addFilter(
 					<BlockEdit {...props} />
 
 					{attributes.loadMore &&
-						<div className={ 'is-layout-flex wp-block-buttons load-more-button-wrap is-content-justification-' + attributes.layout.justifyContent }>
+						<div className={'is-layout-flex wp-block-buttons load-more-button-wrap is-content-justification-' + attributes.layout?.justifyContent}>
 							<div className="wp-block-button">
-								<a className="wp-block-button__link" href="#">{attributes.loadMoreText}</a>
+								<a className="wp-block-button__link wp-load-more__button" href="#">
+									{attributes.loadMoreText}
+									{ displayArrow && (
+										<span
+											className={ `wp-block-query-pagination-next-arrow is-arrow-${ attributes.paginationArrow }` }
+											aria-hidden={ true }
+										>
+											{ displayArrow }
+										</span>
+									) }
+								</a>
 							</div>
 						</div>
 					}

@@ -1,6 +1,6 @@
 <?php
 
-namespace WPcomSpecialProjects\Scaffold;
+namespace WPcomSpecialProjects\Qllm;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -72,22 +72,10 @@ class Plugin {
 	 *
 	 * @return  void
 	 */
-	protected function initialize(): void {
+	public function initialize(): void {
 		add_filter( 'register_block_type_args', array( $this, 'block_meta' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
-	}
-
-	/**
-	 * Initializes the plugin components if WooCommerce is activated.
-	 *
-	 * @since   1.0.0
-	 * @version 1.0.0
-	 *
-	 * @return  void
-	 */
-	public function maybe_initialize(): void {
-		$this->initialize();
 	}
 
 	/**
@@ -96,8 +84,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function assets(): void {
-
-		$deps = include_once WPCOMSP_QLLM_PATH . 'assets/js/build/frontend.asset.php';
+		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/frontend.asset.php' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
@@ -113,7 +100,6 @@ class Plugin {
 			$deps['version'],
 			true
 		);
-
 	}
 
 	/**
@@ -122,8 +108,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function editor_assets(): void {
-
-		$deps = include_once WPCOMSP_QLLM_PATH . 'assets/js/build/index.asset.php';
+		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/index.asset.php' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
@@ -195,11 +180,18 @@ class Plugin {
 			return render_block_core_query_pagination( $attributes, $content );
 		}
 
+		$arrow_map = array(
+			'none'    => '',
+			'arrow'   => '→',
+			'chevron' => '»',
+		);
+
 		// Get query context for current page number and query Id.
-		$page_key    = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
-		$page        = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$block_query = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
-		$buttons     = '';
+		$page_key         = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$block_query      = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
+		$buttons          = '';
+		$pagination_arrow = $attributes['paginationArrow'] ? '<span class="wp-block-query-pagination__arrow">' . $arrow_map[ $attributes['paginationArrow'] ] . '</span>' : '';
 
 		// Build list of load more links.
 		for ( $i = $page + 1; $i <= $block_query->max_num_pages; $i++ ) {
@@ -209,7 +201,7 @@ class Plugin {
 				esc_html( $page_key ),
 				(int) $i,
 				esc_html( $attributes['loadingText'] ),
-				esc_html( $attributes['loadMoreText'] )
+				esc_html( $attributes['loadMoreText'] ) . $pagination_arrow
 			);
 		}
 

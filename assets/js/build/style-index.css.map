@@ -1,1 +1,0 @@
-{"version":3,"file":"./style-index.css","mappings":";;;AAAA;EACC;AACD,C","sources":["webpack://team51-plugin-qllm/./assets/css/src/style.scss"],"sourcesContent":[".wp-load-more__button + .wp-load-more__button {\n\tdisplay: none;\n}\n"],"names":[],"sourceRoot":""}

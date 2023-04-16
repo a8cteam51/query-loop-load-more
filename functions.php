@@ -2,8 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-use WPcomSpecialProjects\Scaffold\Plugin;
-use WPcomSpecialProjects\Scaffold\Load_More;
+use WPcomSpecialProjects\Qllm\Plugin;
 
 /**
  * Returns the plugin's main class instance.

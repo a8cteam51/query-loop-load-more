@@ -1,15 +1,5 @@
 <?php
 /**
- * The Team51 Plugin Scaffold bootstrap file.
- *
- * @since       1.0.0
- * @version     1.0.0
- * @author      WordPress.com Special Projects
- * @license     GPL-3.0-or-later
- *
- * @noinspection    ALL
- *
- * @wordpress-plugin
  * Plugin Name:             Query Loop Load More
  * Plugin URI:              https://github.com/a8cteam51/query-loop-load-more
  * Description:             Adds a load more option to the Query Loop Pagination block in Gutenberg.

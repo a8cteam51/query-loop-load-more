@@ -1,0 +1,15 @@
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./assets/css/src/editor.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+.wp-block-query-pagination.load-more {
+  min-height: 66px;
+}
+.wp-block-query-pagination.load-more * {
+  display: none;
+}
+.wp-block-query-pagination.load-more + .load-more-button-wrap {
+  margin-top: -66px;
+  pointer-events: none;
+}
+
+/*# sourceMappingURL=index.css.map*/

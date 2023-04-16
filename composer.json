@@ -49,10 +49,7 @@
   "autoload": {
     "psr-4": {
       "WPcomSpecialProjects\\Scaffold\\": "src/"
-    },
-    "classmap": [
-      "models/"
-    ]
+    }
   },
   "autoload-dev": {
 

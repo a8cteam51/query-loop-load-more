@@ -1,0 +1,39 @@
+# Copyright (C) 2023 WordPress.com Special Projects
+# This file is distributed under the GPL v3 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Query Loop Load More 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/query-loop-load-more\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-04-16T14:39:40+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: wpcomsp-qllm\n"
+
+#. Plugin Name of the plugin
+msgid "Query Loop Load More"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/a8cteam51/query-loop-load-more"
+msgstr ""
+
+#. Description of the plugin
+msgid "Adds a load more option to the Query Loop Pagination block in Gutenberg."
+msgstr ""
+
+#. Author of the plugin
+msgid "WordPress.com Special Projects"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://wpspecialprojects.wordpress.com"
+msgstr ""
+
+#: query-loop-load-more.php:45
+msgid "It seems like <strong>Team51 Plugin Scaffold</strong> is corrupted. Please reinstall!"
+msgstr ""

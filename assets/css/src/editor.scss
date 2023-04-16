@@ -1,0 +1,11 @@
+.wp-block-query-pagination.load-more {
+	min-height: 66px;
+	* {
+		display: none;
+	}
+
+	+ .load-more-button-wrap {
+		margin-top: -66px;
+		pointer-events: none;
+	}
+}

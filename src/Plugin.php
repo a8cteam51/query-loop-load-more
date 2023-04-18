@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedNamespaceFound
 namespace WPcomSpecialProjects\Qllm;
 
 defined( 'ABSPATH' ) || exit;

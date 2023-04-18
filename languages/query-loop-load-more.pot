@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-16T14:39:40+00:00\n"
+"POT-Creation-Date: 2023-04-18T10:16:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: wpcomsp-qllm\n"
@@ -35,5 +35,13 @@ msgid "https://wpspecialprojects.wordpress.com"
 msgstr ""
 
 #: query-loop-load-more.php:45
-msgid "It seems like <strong>Team51 Plugin Scaffold</strong> is corrupted. Please reinstall!"
+msgid "It seems like <strong>Query Loop Load More</strong> is corrupted. Please reinstall!"
+msgstr ""
+
+#: src/Plugin.php:156
+msgid "Load More"
+msgstr ""
+
+#: src/Plugin.php:162
+msgid "Loading..."
 msgstr ""

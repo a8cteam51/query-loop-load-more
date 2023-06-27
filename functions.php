@@ -17,18 +17,6 @@ function wpcomsp_qllm_get_plugin_instance(): Plugin {
 }
 
 /**
- * Returns the plugin's main class instance.
- *
- * @since   1.0.0
- * @version 1.0.0
- *
- * @return  Plugin
- */
-function wpcomsp_qllm_get_load_more_instance(): Load_More {
-	return Load_More::init();
-}
-
-/**
  * Returns the plugin's slug.
  *
  * @since   1.0.0

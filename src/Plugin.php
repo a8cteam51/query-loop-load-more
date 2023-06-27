@@ -150,6 +150,18 @@ class Plugin {
 			'default' => false,
 		);
 
+		// Add a "infinite scroll" attribute that we can toggle in the editor.
+		$settings['attributes']['infiniteScroll'] = array(
+			'type'    => 'boolean',
+			'default' => false,
+		);
+
+		// Set the infiniteScroll animation color.
+		$settings['attributes']['infiniteScrollColor'] = array(
+			'type'    => 'string',
+			'default' => '#000',
+		);
+
 		// Button text attribute.
 		$settings['attributes']['loadMoreText'] = array(
 			'type'    => 'string',
@@ -187,6 +199,18 @@ class Plugin {
 			'chevron' => '»',
 		);
 
+		$infinite_scroll_markup = '';
+		if ( $attributes['infiniteScroll'] ) {
+			$infinite_scroll_markup = '
+				<div class="wp-load-more__infinite-scroll">
+					<div class="animation-wrapper" style="border-color: ' . esc_attr( $attributes['infiniteScrollColor'] ) . '">
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+			';
+		}
+
 		// Get query context for current page number and query Id.
 		$page_key         = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -206,7 +230,7 @@ class Plugin {
 			);
 		}
 
-		return '
+		return $infinite_scroll_markup . '
 			<div class="is-layout-flex wp-block-buttons">
 				<div class="wp-block-button aligncenter">
 					' . wp_kses_post( $buttons ) . '

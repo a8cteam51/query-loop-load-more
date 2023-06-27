@@ -9,6 +9,7 @@ import {
 	ToggleControl,
 	PanelBody,
 	TextControl,
+	ColorPicker,
 } from '@wordpress/components';
 import { loop } from '@wordpress/icons';
 import { addFilter } from '@wordpress/hooks';
@@ -32,6 +33,7 @@ addFilter(
 
 			const { attributes, setAttributes } = props;
 
+			// Update the load more attributes and add class to block.
 			const updateLoadMore = () => {
 				if ( attributes.loadMore ) {
 					props.attributes.className =
@@ -44,6 +46,25 @@ addFilter(
 				setAttributes( { loadMore: ! attributes.loadMore } );
 			};
 
+			// Update the infinite scroll attributes and add class to block.
+			const updateInfiniteScroll = () => {
+				if ( attributes.infiniteScroll ) {
+					props.attributes.className =
+						props.attributes.className.replace(
+							'infinite-scroll',
+							''
+						);
+				} else {
+					props.attributes.className =
+						props.attributes.className + ' infinite-scroll';
+				}
+
+				setAttributes( {
+					infiniteScroll: ! attributes.infiniteScroll,
+				} );
+			};
+
+			// Arrows that can be used for the load more button.
 			const arrowMap = {
 				none: '',
 				arrow: '→',
@@ -71,31 +92,51 @@ addFilter(
 					</BlockControls>
 					<BlockEdit { ...props } />
 
-					{ attributes.loadMore && (
-						<div
-							className={
-								'is-layout-flex wp-block-buttons load-more-button-wrap is-content-justification-' +
-								attributes.layout?.justifyContent
-							}
-						>
-							<div className="wp-block-button">
-								<a
-									className="wp-block-button__link wp-load-more__button"
-									href="#"
-								>
-									{ attributes.loadMoreText }
-									{ displayArrow && (
-										<span
-											className={ `wp-block-query-pagination-next-arrow is-arrow-${ attributes.paginationArrow }` }
-											aria-hidden={ true }
-										>
-											{ displayArrow }
-										</span>
-									) }
-								</a>
+					{ /* If load more is selected, show a preview of either the button, or infinite scroll animation. */ }
+					{ attributes.loadMore &&
+						( ! attributes.infiniteScroll ? (
+							<div
+								className={
+									'is-layout-flex wp-block-buttons load-more-button-wrap is-content-justification-' +
+									attributes.layout?.justifyContent
+								}
+							>
+								<div className="wp-block-button">
+									<a
+										className="wp-block-button__link wp-load-more__button"
+										href="#"
+									>
+										{ attributes.loadMoreText }
+										{ displayArrow && (
+											<span
+												className={ `wp-block-query-pagination-next-arrow is-arrow-${ attributes.paginationArrow }` }
+												aria-hidden={ true }
+											>
+												{ displayArrow }
+											</span>
+										) }
+									</a>
+								</div>
 							</div>
-						</div>
-					) }
+						) : (
+							<div
+								className={
+									'is-layout-flex wp-load-more__infinite-scroll is-content-justification-' +
+									attributes.layout?.justifyContent
+								}
+							>
+								<div
+									className="animation-wrapper"
+									style={ {
+										borderColor:
+											attributes.infiniteScrollColor,
+									} }
+								>
+									<div></div>
+									<div></div>
+								</div>
+							</div>
+						) ) }
 
 					<InspectorControls key="setting">
 						<PanelBody>
@@ -109,30 +150,60 @@ addFilter(
 							/>
 							{ attributes.loadMore && (
 								<>
-									<TextControl
+									<ToggleControl
 										label={ __(
-											'Load more button text',
+											'Use infinite scroll?',
 											'wp-load-more'
 										) }
-										value={ attributes.loadMoreText }
-										onChange={ ( value ) =>
-											setAttributes( {
-												loadMoreText: value,
-											} )
+										checked={ attributes.infiniteScroll }
+										onChange={ () =>
+											updateInfiniteScroll()
 										}
 									/>
-									<TextControl
-										label={ __(
-											'Loading text',
-											'wp-load-more'
-										) }
-										value={ attributes.loadingText }
-										onChange={ ( value ) =>
-											setAttributes( {
-												loadingText: value,
-											} )
-										}
-									/>
+									{ attributes.infiniteScroll && (
+										<ColorPicker
+											color={
+												attributes.infiniteScrollColor
+											}
+											onChange={ ( value ) =>
+												setAttributes( {
+													infiniteScrollColor: value,
+												} )
+											}
+											enableAlpha
+											defaultValue="#000"
+										/>
+									) }
+									{ ! attributes.infiniteScroll && (
+										<>
+											<TextControl
+												label={ __(
+													'Load more button text',
+													'wp-load-more'
+												) }
+												value={
+													attributes.loadMoreText
+												}
+												onChange={ ( value ) =>
+													setAttributes( {
+														loadMoreText: value,
+													} )
+												}
+											/>
+											<TextControl
+												label={ __(
+													'Loading text',
+													'wp-load-more'
+												) }
+												value={ attributes.loadingText }
+												onChange={ ( value ) =>
+													setAttributes( {
+														loadingText: value,
+													} )
+												}
+											/>
+										</>
+									) }
 								</>
 							) }
 						</PanelBody>

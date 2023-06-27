@@ -1,3 +1,5 @@
+@import "infinite";
+
 .wp-block-query-pagination.load-more {
 	min-height: 66px;
 
@@ -5,7 +7,7 @@
 		display: none;
 	}
 
-	+ .load-more-button-wrap {
+	+.load-more-button-wrap {
 		margin-top: -66px;
 		pointer-events: none;
 	}
@@ -17,7 +19,12 @@
 
 	gap: var(--wp--preset--spacing--30);
 
-	+ .wp-load-more__button {
+	+.wp-load-more__button {
 		display: none;
 	}
+}
+
+.wp-load-more__infinite-scroll {
+	margin-top: -66px;
+	display: flex;
 }

@@ -38,7 +38,7 @@ add_action(
 );
 
 // Load the autoloader.
-if ( ! is_file( WPCOMSP_QLLM_PATH . '/vendor/autoload.php' ) ) {
+if ( ! is_file( WPCOMSP_QLLM_PATH . 'vendor/autoload.php' ) ) {
 	add_action(
 		'admin_notices',
 		static function() {
@@ -49,7 +49,7 @@ if ( ! is_file( WPCOMSP_QLLM_PATH . '/vendor/autoload.php' ) ) {
 	);
 	return;
 }
-require_once WPCOMSP_QLLM_PATH . '/vendor/autoload.php';
+require_once WPCOMSP_QLLM_PATH . 'vendor/autoload.php';
 
 // Initialize the plugin if system requirements check out.
 $wpcomsp_qllm_requirements = validate_plugin_requirements( WPCOMSP_QLLM_BASENAME );

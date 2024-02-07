@@ -1,0 +1,29 @@
+name: Build and Release
+
+on:
+  release:
+    types: [ released ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Install dependencies
+        run: |
+          composer run-script packages-install -- --no-dev
+          npm ci
+          npm run build
+
+      - name: Zip Folder
+        run: zip -r ${{ github.event.repository.name }}.zip . -x ".git/*" ".github/*" "node_modules/*" ".gitignore" ".editorconfig" ".phpcs.xml" "composer.json" "composer.lock" "package.json" "package-lock.json"
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ github.event.repository.name }}.zip

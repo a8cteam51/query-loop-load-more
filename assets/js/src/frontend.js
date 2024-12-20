@@ -123,6 +123,14 @@ const fetchPosts = ( url, container, clickedButton ) => {
 			// Update the window URL.
 			window.history.pushState( {}, '', url );
 
+			const $button = clickedButton.closest('.wp-block-button');
+
+			console.log( $button );
+
+			if ( $button ) {
+				$button.classList.remove( 'loading' );
+			}
+
 			// Remove button.
 			clickedButton.remove();
 
@@ -189,6 +197,12 @@ document.addEventListener( 'DOMContentLoaded', function () {
 						.closest( '.wp-block-query' )
 						.querySelector( '.wp-block-post-template' ),
 					url = thisButton.getAttribute( 'href' );
+
+				const $button = thisButton.closest('.wp-block-button');
+
+				if ( $button ) {
+					$button.classList.add( 'loading' );
+				}
 
 				// Update button text.
 				thisButton.innerText =

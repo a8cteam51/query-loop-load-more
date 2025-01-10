@@ -1,0 +1,12 @@
+name: 'WordPress Plugin Readme/Assets Update'
+description: 'Deploy readme and asset updates to the WordPress Plugin Repository'
+author: '10up'
+branding:
+  icon: 'upload-cloud'
+  color: 'blue'
+runs:
+  using: 'composite'
+  steps:
+    - id: deploy
+      run: ${{ github.action_path }}/deploy.sh
+      shell: bash

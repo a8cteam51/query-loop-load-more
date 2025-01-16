@@ -1,6 +1,6 @@
 === Query Loop Load More ===
-Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia 
-Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing
+Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes
+Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.6.1
 Stable tag: 1.0.5
@@ -13,6 +13,10 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 This WordPress plugin adds a load more option to the Query Loop Pagination block in Gutenberg, allowing users to load more posts without refreshing the page. It replaces the traditional `Previous` `Next` and numbered pagination, with a customizable, `Load More` button.
 
+== Installation ==
+
+1. Upload the plugin files to the `/wp-content/plugins/query-loop-load-more` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress.
 
 == Instructions ==
 
@@ -59,10 +63,10 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 == Screenshots ==
 
-1. **Block Editor - functionality and load more button**
-2. **Block Editor - infinite scroll settings**
-3. **Frontend - Load More Button**
-4. **Frontend - Infinite scroll**
+1. **Block Editor - Load More button**
+2. **Block Editor - Loading state animation**
+3. **Frontend - Posts loading with button**
+4. **Frontend - Infinite scroll post**
 
 
 == Changelog ==

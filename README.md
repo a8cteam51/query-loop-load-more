@@ -26,6 +26,15 @@ Here is how to enable the load more option:
 
 That's it! Your visitors can now load more posts by clicking the load more button without refreshing the page.
 
+## Customization Options
+
+- **Alignment**: Use standard block editor settings to set the alignment of the load more button
+- **Button**: Choose the button option for users to click to load more posts
+- **Button Text**: Customize the load more button text
+- **Loading Text**: Customize the text for the post loading state
+- **Infinite Scroll**: Choose this option to allow new posts to load automatically when users reach the bottom of the feed
+- **Color**: Customize the color of the load more button and the loading state icon when using the infinite scroll option
+
 ## Changelog
 
 ### 1.0.5

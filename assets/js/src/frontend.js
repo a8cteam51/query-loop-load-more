@@ -1,102 +1,38 @@
-// Keep a record of the page we have loaded, per query.
-const pages = {};
+import domReady from '@wordpress/dom-ready';
 
-/**
- * Gets the query and page from a URL string
- * @param {string} str The query string for url
- * @returns {query: number, page: number} | null
- */
-const extractQueryParams = ( str ) => {
-	// Default values
-	let query = null;
-	let page = null;
+const intersectionObserver = new window.IntersectionObserver( ( entries ) => {
+	entries.forEach( ( entry ) => {
+		// If intersectionRatio is 0, the target is out of view.
+		if ( entry.intersectionRatio <= 0 ) {
+			return;
+		}
 
-	// Regular expressions to match query and page
-	const queryMatch = str.match( /query-(\d+)/ );
-	const pageMatch = str.match( /page=(\d+)/ );
-
-	// Extract and convert to integer if matches are found
-	if ( queryMatch ) {
-		query = parseInt( queryMatch[ 1 ], 10 );
-	}
-
-	if ( pageMatch ) {
-		page = parseInt( pageMatch[ 1 ], 10 );
-	}
-
-	// If either are null, return null
-	if ( query === null || page === null ) {
-		return null;
-	}
-
-	return { query, page };
-};
-
-/**
- * Checks if a given query and page is in the pages object
- *
- * @param {number} query The query ID
- * @param {number} page The page number
- *
- * @returns {boolean}
- */
-const isPageLoaded = ( query, page ) => {
-	if ( pages[ query ] && pages[ query ].includes( page ) ) {
-		return true;
-	} else {
-		return false;
-	}
-};
-
-/**
- * Logs a given query and page to the pages object
- *
- * @param {number} query The query ID
- * @param {number} page The page number
- *
- * @returns {void}
- */
-const logPage = ( query, page ) => {
-	if ( ! pages[ query ] ) {
-		pages[ query ] = [];
-	}
-
-	pages[ query ].push( page );
-};
-
-const intersectionObserver = new IntersectionObserver( ( entries ) => {
-	// If intersectionRatio is 0, the target is out of view.
-	if ( entries[ 0 ].intersectionRatio <= 0 ) return;
-
-	const $url = entries[ 0 ].target.href,
-		$container = entries[ 0 ].target
-			.closest( '.wp-block-query' )
-			.querySelector( '.wp-block-post-template' ),
-		$clickedButton = entries[ 0 ].target;
-
-	// Get the query and page from the button href.
-	const queryLoopParams = extractQueryParams(
-		$clickedButton.getAttribute( 'href' )
-	);
-
-	// If we have a page and its not already in the pages array, add it.
-	if (
-		queryLoopParams &&
-		isPageLoaded( queryLoopParams.query, queryLoopParams.page ) === false
-	) {
-		logPage( queryLoopParams.query, queryLoopParams.page );
-		fetchPosts( $url, $container, $clickedButton );
-	}
+		// load posts
+		fetchPosts( entry.target );
+	} );
 } );
 
 /**
+ * Load page from server, extract and append new posts to button's query block.
  *
- * @param {*} url
- * @param {*} container
- * @param {*} clickedButton
+ * @param {*} button
  */
-const fetchPosts = ( url, container, clickedButton ) => {
-	showLoader();
+const fetchPosts = ( button ) => {
+	const url = button.href;
+	const container = button
+		.closest( '.wp-block-query' )
+		?.querySelector( '.wp-block-post-template' );
+
+	// return early if button is still loading or required data not found
+	if ( button.classList.contains( 'loading' ) || ! container || ! url ) {
+		return;
+	}
+
+	//set loading text and classes
+	button.classList.add( 'loading' );
+	if ( ! button.classList.contains( 'wp-load-more__infinite-scroll' ) ) {
+		button.innerText = button.dataset.loadingText;
+	}
 
 	// Load posts via fetch from the button URL.
 	fetch( url, {
@@ -112,112 +48,87 @@ const fetchPosts = ( url, container, clickedButton ) => {
 			throw new Error( 'Network response was not ok.' );
 		} )
 		.then( function ( data ) {
-			// Get the posts container.
+			// create temporary container to load fetched HTML
 			const temp = document.createElement( 'div' );
 			temp.innerHTML = data;
-			const posts = temp.querySelector( '.wp-block-post-template' );
 
-			// Update the posts container.
-			container.insertAdjacentHTML( 'beforeend', posts.innerHTML );
+			// get region from container
+			const containerRegion = container.dataset.qllmQueryRegion || '';
 
-			// Update the window URL.
-			window.history.pushState( {}, '', url );
+			// find container in fetched HTML matching container's region
+			const posts = temp.querySelector(
+				`.wp-block-post-template[data-qllm-query-region="${ containerRegion }"]`
+			);
 
-			const $button = clickedButton.closest('.wp-block-button');
+			// append the posts
+			if ( posts ) {
+				container.insertAdjacentHTML( 'beforeend', posts.innerHTML );
+			}
 
-			console.log( $button );
+			const $button = button.closest( '.wp-block-button' );
 
 			if ( $button ) {
 				$button.classList.remove( 'loading' );
 			}
-
-			// Remove button.
-			clickedButton.remove();
-
-			hideLoader();
 		} )
-		.catch( function ( error ) {
+		.catch( ( error ) => {
+			//eslint-disable-next-line no-console
 			console.error( 'Fetch error:', error );
+		} )
+		//cleanup
+		.finally( () => {
+			//update button attributes
+			if (
+				button.dataset.queryNextPage >= button.dataset.queryNextPage
+			) {
+				button.dataset.queryNextPage =
+					+button.dataset.queryNextPage + 1;
+				button.href =
+					button.dataset.queryUrl + button.dataset.queryNextPage;
+			}
+
+			//reset loading text and classes
+			button.classList.remove( 'loading' );
+
+			if (
+				! button.classList.contains( 'wp-load-more__infinite-scroll' )
+			) {
+				button.innerText = button.dataset.loadMoreText;
+			}
 		} );
 };
 
 /**
- * Show the infinite scroll loader.
+ * Setup buttons and add listeners when ready
  */
-const showLoader = () => {
-	const $loader = document.querySelectorAll(
-		'.wp-load-more__infinite-scroll'
-	);
-
-	if ( ! $loader?.length ) {
-		return;
-	}
-
-	$loader[ 0 ].classList.add( 'loading' );
-};
-
-/**
- * Hide the infinite scroll loader.
- */
-const hideLoader = () => {
-	const $loader = document.querySelectorAll(
-		'.wp-load-more__infinite-scroll'
-	);
-
-	if ( ! $loader?.length ) {
-		return;
-	}
-
-	$loader[ 0 ].classList.remove( 'loading' );
-	intersectionObserver.observe(
-		document.querySelector( '.wp-load-more__button' )
-	);
-};
-
-/**
- *
- */
-document.addEventListener( 'DOMContentLoaded', function () {
+domReady( () => {
 	'use strict';
 
-	// Cache selectors.
-	const buttons = document.querySelectorAll( '.wp-load-more__button' );
-	const infiniteScroll = document.querySelectorAll(
-		'.wp-load-more__infinite-scroll'
-	);
+	//load more buttons
+	// prepare buttons and add listeners
+	document
+		.querySelectorAll(
+			'.wp-load-more__button:not(.wp-load-more__infinite-scroll)'
+		)
+		.forEach( function ( button ) {
+			// store load more text
+			if ( button.dataset.loadMoreText === undefined ) {
+				button.dataset.loadMoreText = button.innerText;
+			}
 
-	// Attach handlers all to all load more buttons.
-	if ( buttons?.length ) {
-		buttons.forEach( function ( button ) {
+			//add listener
 			button.addEventListener( 'click', function ( e ) {
 				e.preventDefault();
 
-				const thisButton = e.target,
-					container = thisButton
-						.closest( '.wp-block-query' )
-						.querySelector( '.wp-block-post-template' ),
-					url = thisButton.getAttribute( 'href' );
-
-				const $button = thisButton.closest('.wp-block-button');
-
-				if ( $button ) {
-					$button.classList.add( 'loading' );
-				}
-
-				// Update button text.
-				thisButton.innerText =
-					thisButton.getAttribute( 'data-loading-text' );
-
-				fetchPosts( url, container, thisButton );
+				fetchPosts( e.target );
 			} );
 		} );
-	}
 
-	// Add infinite scroll watchers if infinite scroll is enabled.
-	if ( infiniteScroll?.length ) {
-		// start observing
-		intersectionObserver.observe(
-			document.querySelector( '.wp-load-more__button' )
-		);
-	}
+	// infinite scroll
+	// add listeners
+	document
+		.querySelectorAll( '.wp-load-more__infinite-scroll' )
+		.forEach( function ( button ) {
+			intersectionObserver.observe( button );
+		} );
 } );

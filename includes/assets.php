@@ -10,8 +10,8 @@ defined( 'ABSPATH' ) || exit;
  * @since   1.0.0
  * @version 1.0.0
  *
- * @param   string      $asset_path             The path to the asset file.
- * @param   array|null  $extra_dependencies     Any extra dependencies to include in the returned meta.
+ * @param   string     $asset_path         The path to the asset file.
+ * @param   array|null $extra_dependencies Any extra dependencies to include in the returned meta.
  *
  * @return  array|null
  */

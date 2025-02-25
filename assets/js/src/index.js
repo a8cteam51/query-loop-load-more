@@ -102,6 +102,7 @@ addFilter(
 								}
 							>
 								<div className="wp-block-button">
+									{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
 									<a
 										className="wp-block-button__link wp-load-more__button"
 										href="#"

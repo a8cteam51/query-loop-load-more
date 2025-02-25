@@ -6,6 +6,11 @@ namespace WPcomSpecialProjects\Qllm;
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * WordPress dependencies
+ */
+use WP_HTML_Tag_Processor;
+
+/**
  * Main plugin class.
  *
  * @since   1.0.0
@@ -77,6 +82,7 @@ class Plugin {
 		add_filter( 'register_block_type_args', array( $this, 'block_meta' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
+		add_filter( 'render_block_core/query', array( $this, 'render_query_block' ), 20 );
 	}
 
 	/**
@@ -85,20 +91,20 @@ class Plugin {
 	 * @return void
 	 */
 	public function assets(): void {
-		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/frontend.asset.php' );
+		$asset_meta = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/frontend.js' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
 			WPCOMSP_QLLM_URL . 'assets/js/build/style-index.css',
 			array(),
-			$deps['version']
+			$asset_meta['version']
 		);
 
 		wp_enqueue_script(
 			'wpcomsp-qllm',
 			WPCOMSP_QLLM_URL . 'assets/js/build/frontend.js',
-			array(),
-			$deps['version'],
+			$asset_meta['dependencies'],
+			$asset_meta['version'],
 			true
 		);
 	}
@@ -109,7 +115,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function editor_assets(): void {
-		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/index.asset.php' );
+		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/index.js' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
@@ -130,8 +136,9 @@ class Plugin {
 	/**
 	 * Filter the pagination block to add a new attribute and render callback.
 	 *
-	 * @param array $settings
-	 * @param array $metadata
+	 * @param array  $settings Array of arguments for registering a block type.
+	 * @param string $name     Block type name including namespace.
+	 *
 	 * @return array
 	 */
 	public function block_meta( array $settings, string $name ): array {
@@ -165,13 +172,13 @@ class Plugin {
 		// Button text attribute.
 		$settings['attributes']['loadMoreText'] = array(
 			'type'    => 'string',
-			'default' => __( 'Load More', 'query-loop-load-more' ),
+			'default' => esc_html__( 'Load More', 'query-loop-load-more' ),
 		);
 
 		// Loading text attribute.
 		$settings['attributes']['loadingText'] = array(
 			'type'    => 'string',
-			'default' => __( 'Loading...', 'query-loop-load-more' ),
+			'default' => esc_html__( 'Loading...', 'query-loop-load-more' ),
 		);
 
 		return $settings;
@@ -181,9 +188,10 @@ class Plugin {
 	/**
 	 * Renders the `core/query-pagination` block on the server.
 	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block default content.
-	 * @param WP_Block $block      Block instance.
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content    Block default content.
+	 * @param \WP_Block $block      Block instance.
+	 *
 	 * @return string Returns the wrapper for the Query pagination.
 	 */
 	public function render( array $attributes, string $content, \WP_Block $block ): string {
@@ -199,44 +207,67 @@ class Plugin {
 			'chevron' => '»',
 		);
 
+		// Get query context for current page number and query Id.
+		$query_id         = (int) $block->context['queryId'] ?? 0;
+		$page_key         = $query_id ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+		$inherit          = $block->context['query']['inherit'] ?? false;
+		$is_infinite      = $attributes['infiniteScroll'] ?? false;
+		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page_parameter   = $inherit ? 'paged' : $page_key;
+		$block_query      = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
+		$button_classes   = $is_infinite
+			? 'wp-load-more__button wp-load-more__infinite-scroll'
+			: 'wp-block-button__link wp-element-button wp-load-more__button';
+		$pagination_arrow = 'none' !== $attributes['paginationArrow'] ? '<span class="wp-block-query-pagination__arrow">' . $arrow_map[ $attributes['paginationArrow'] ] . '</span>' : '';
+
 		$infinite_scroll_markup = '';
-		if ( $attributes['infiniteScroll'] ) {
+		if ( $is_infinite ) {
 			$infinite_scroll_markup = '
-				<div class="wp-load-more__infinite-scroll">
 					<div class="animation-wrapper" style="border-color: ' . esc_attr( $attributes['infiniteScrollColor'] ) . '">
 						<div></div>
 						<div></div>
 					</div>
-				</div>
 			';
 		}
 
-		// Get query context for current page number and query Id.
-		$page_key         = isset( $block->context['queryId'] ) ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
-		$inherit          = isset( $block->context['query']['inherit'] ) ? $block->context['query']['inherit'] : false;
-		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$block_query      = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
-		$buttons          = '';
-		$pagination_arrow = $attributes['paginationArrow'] ? '<span class="wp-block-query-pagination__arrow">' . $arrow_map[ $attributes['paginationArrow'] ] . '</span>' : '';
-
 		// Build list of load more links.
-		for ( $i = $page + 1; $i <= $block_query->max_num_pages; $i++ ) {
-			$buttons .= sprintf(
-				$inherit ? '<a class="%s" href="%s/page/%d/" data-loading-text="%s">%s</a>' : '<a class="%s" href="?%s=%d" data-loading-text="%s">%s</a>',
-				'wp-block-button__link wp-element-button wp-load-more__button',
-				$inherit ? '' : esc_html( $page_key ),
-				(int) $i,
-				esc_html( $attributes['loadingText'] ),
-				esc_html( $attributes['loadMoreText'] ) . $pagination_arrow
-			);
-		}
+		$block_content = sprintf(
+			'<a class="%1$s" href="?%2$s=%3$d" data-loading-text="%4$s" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="?%2$s=">%7$s%8$s</a>',
+			$button_classes,
+			$page_parameter,
+			$page + 1,
+			$is_infinite ? '' : esc_attr( $attributes['loadingText'] ),
+			$query_id,
+			$block_query->max_num_pages,
+			$is_infinite ? '' : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
+			$infinite_scroll_markup
+		);
 
-		return $infinite_scroll_markup . '
+		return '
 			<div class="is-layout-flex wp-block-buttons">
 				<div class="wp-block-button aligncenter">
-					' . wp_kses_post( $buttons ) . '
+					' . wp_kses_post( $block_content ) . '
 				</div>
 			</div>
 		';
+	}
+	/**
+	 * Add region-router attribute to the query block.
+	 *
+	 * @param string $block_content The block content.
+	 *
+	 * @return string
+	 */
+	public function render_query_block( $block_content ) {
+
+		static $region_counter = 1;
+
+			$p = new WP_HTML_Tag_Processor( $block_content );
+		if ( $p->next_tag( array( 'class_name' => 'wp-block-post-template' ) ) ) {
+			$p->set_attribute( 'data-qllm-query-region', $region_counter++ );
+			$block_content = $p->get_updated_html();
+		}
+
+		return $block_content;
 	}
 }

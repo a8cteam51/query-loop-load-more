@@ -46,12 +46,14 @@
   "scripts": {
     "build": "npm-run-all --sequential build:**",
     "build:blocks": "wp-scripts build --webpack-src-dir=blocks/src --output-path=blocks/build",
-    "build:assets:scripts": "wp-scripts build assets/js/src/*.js --output-path=assets/js/build",
+    "build:assets:scripts": "wp-scripts build assets/js/src/frontend.js assets/js/src/index.js --webpack-src-dir=assets/js/src --output-path=assets/js/build",
     "format": "npm-run-all --sequential format:**",
-    "format:scripts": "wp-scripts format blocks assets/js --no-error-on-unmatched-pattern",
+    "format:scripts": "wp-scripts format blocks --no-error-on-unmatched-pattern",
+    "format:assets:scripts": "wp-scripts format assets/js --no-error-on-unmatched-pattern",
     "format:styles": "npm run lint:styles -- --fix",
     "lint": "npm-run-all --sequential lint:**",
-    "lint:scripts": "wp-scripts lint-js blocks assets/js --no-error-on-unmatched-pattern --fix",
+    "lint:scripts": "wp-scripts lint-js blocks --no-error-on-unmatched-pattern --fix",
+    "lint:assets:scripts": "wp-scripts lint-js assets/js --no-error-on-unmatched-pattern --fix",
     "lint:styles": "wp-scripts lint-style blocks/**/*.{css,sass,scss} assets/css/**/*.{css,sass,scss} --allow-empty-input --report-descriptionless-disables --report-invalid-scope-disables --report-needless-disables --fix",
     "lint:pkg-json": "wp-scripts lint-pkg-json",
     "lint:readme-md": "wp-scripts lint-md-docs README.md",
@@ -60,6 +62,6 @@
     "check-licenses": "wp-scripts check-licenses",
     "start": "npm-run-all --parallel start:**",
     "start:blocks": "wp-scripts start --webpack-src-dir=blocks/src --output-path=blocks/build",
-    "start:assets:scripts": "wp-scripts start assets/js/src/*.js --output-path=assets/js/build"
+    "start:assets:scripts": "wp-scripts start assets/js/src/frontend.js assets/js/src/index.js --webpack-src-dir=assets/js/src/ --output-path=assets/js/build"
   }
 }

@@ -230,18 +230,25 @@ class Plugin {
 			';
 		}
 
-		// Build list of load more links.
-		$block_content = sprintf(
-			'<a class="%1$s" href="?%2$s=%3$d" data-loading-text="%4$s" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="?%2$s=">%7$s%8$s</a>',
-			$button_classes,
-			$page_parameter,
-			$page + 1,
-			$is_infinite ? '' : esc_attr( $attributes['loadingText'] ),
-			$query_id,
-			$block_query->max_num_pages,
-			$is_infinite ? '' : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
-			$infinite_scroll_markup
-		);
+		// more posts available
+		if ( $block_query->max_num_pages > $page ) {
+
+			// Build list of load more links.
+			$block_content = sprintf(
+				'<a class="%1$s" href="?%2$s=%3$d" data-loading-text="%4$s" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="?%2$s=">%7$s%8$s</a>',
+				$button_classes,
+				$page_parameter,
+				$page + 1,
+				$is_infinite ? '' : esc_attr( $attributes['loadingText'] ),
+				$query_id,
+				$block_query->max_num_pages,
+				$is_infinite ? '' : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
+				$infinite_scroll_markup
+			);
+		} else {
+			//all posts loaded
+			return '';
+		}
 
 		return '
 			<div class="is-layout-flex wp-block-buttons">
@@ -262,7 +269,7 @@ class Plugin {
 
 		static $region_counter = 1;
 
-			$p = new WP_HTML_Tag_Processor( $block_content );
+		$p = new WP_HTML_Tag_Processor( $block_content );
 		if ( $p->next_tag( array( 'class_name' => 'wp-block-post-template' ) ) ) {
 			$p->set_attribute( 'data-qllm-query-region', $region_counter++ );
 			$block_content = $p->get_updated_html();

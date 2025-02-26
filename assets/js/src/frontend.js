@@ -77,9 +77,24 @@ const fetchPosts = ( button ) => {
 		} )
 		//cleanup
 		.finally( () => {
+			//no more posts available -> remove button
+			if (
+				+button.dataset.queryNextPage >= +button.dataset.queryMaxPage
+			) {
+				if (
+					button.classList.contains( 'wp-load-more__infinite-scroll' )
+				) {
+					intersectionObserver.unobserve( button );
+				}
+
+				button.closest( '.wp-block-buttons' )?.remove();
+
+				return;
+			}
+
 			//update button attributes
 			if (
-				button.dataset.queryNextPage >= button.dataset.queryNextPage
+				+button.dataset.queryNextPage < +button.dataset.queryMaxPage
 			) {
 				button.dataset.queryNextPage =
 					+button.dataset.queryNextPage + 1;

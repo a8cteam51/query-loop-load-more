@@ -2,8 +2,8 @@
 Contributors: wpspecialprojects, tommusrhodus
 Tags: gutenberg, editor, block editor, load more, query loop
 Requires at least: 6.2
-Tested up to: 6.6.1
-Stable tag: 1.0.5
+Tested up to: 6.7.2
+Stable tag: 1.0.7
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -28,6 +28,16 @@ Here is how to enable the load more option:
 * That's it! Your visitors can now load more posts by clicking the load more button without refreshing the page.
 
 == Changelog ==
+
+= 1.0.7 =
+* Fix - Loading posts ( multiple query blocks, loading posts from correct query block )
+* Fix - URL related issues ( new setting for updating the URL, update paging parameter without changing base URL )
+* Update - Using only one button, including infinite scroll
+* Update - Changed default behavior - not updating the URL by default - added a setting to re-enable
+* Update - Build scripts
+
+= 1.0.6 =
+* Update - Add loading class when in loading state
 
 = 1.0.5 =
 * Fix - Infinite scroll would duplicate some posts due to the same AJAX call being executed twice

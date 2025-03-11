@@ -27,4 +27,17 @@
 .wp-load-more__infinite-scroll {
 	margin-top: -66px;
 	display: flex;
+
+	.animation-wrapper.animation-wrapper {
+		visibility: visible;
+
+		div {
+			animation-duration: 2.5s;
+
+
+			@media (prefers-reduced-motion: reduce) {
+				animation-play-state: paused
+			}
+		}
+	}
 }

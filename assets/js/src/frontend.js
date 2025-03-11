@@ -1,16 +1,18 @@
 import domReady from '@wordpress/dom-ready';
 
-const intersectionObserver = new window.IntersectionObserver( ( entries ) => {
-	entries.forEach( ( entry ) => {
-		// If intersectionRatio is 0, the target is out of view.
-		if ( entry.intersectionRatio <= 0 ) {
-			return;
-		}
-
-		// load posts
-		fetchPosts( entry.target );
-	} );
-} );
+const intersectionObserver = new window.IntersectionObserver(
+	( entries ) => {
+		entries.forEach( ( entry ) => {
+			// load posts
+			if ( entry.isIntersecting ) {
+				fetchPosts( entry.target );
+			}
+		} );
+	},
+	{
+		threshold: 0.5,
+	}
+);
 
 /**
  * Load page from server, extract and append new posts to button's query block.
@@ -25,6 +27,13 @@ const fetchPosts = ( button ) => {
 
 	// return early if button is still loading or required data not found
 	if ( button.classList.contains( 'loading' ) || ! container || ! url ) {
+		return;
+	}
+
+	const fetchUrl = new URL( url, window.location.origin );
+
+	//Not allowed to fetch from other origin
+	if ( fetchUrl.origin !== window.location.origin ) {
 		return;
 	}
 
@@ -70,17 +79,23 @@ const fetchPosts = ( button ) => {
 			if ( $button ) {
 				$button.classList.remove( 'loading' );
 			}
-		} )
-		.catch( ( error ) => {
-			//eslint-disable-next-line no-console
-			console.error( 'Fetch error:', error );
-		} )
-		//cleanup
-		.finally( () => {
+
+			const queryNextPage = +button.dataset.queryNextPage;
+			const queryMaxPage = +button.dataset.queryMaxPage;
+
+			//update URL
+			if ( button.dataset.updateUrl ) {
+				const newUrl = new URL( window.location.href );
+
+				newUrl.searchParams.set(
+					button.dataset.queryUrl,
+					queryNextPage
+				);
+				window.history.pushState( {}, '', newUrl );
+			}
+
 			//no more posts available -> remove button
-			if (
-				+button.dataset.queryNextPage >= +button.dataset.queryMaxPage
-			) {
+			if ( queryNextPage >= queryMaxPage ) {
 				if (
 					button.classList.contains( 'wp-load-more__infinite-scroll' )
 				) {
@@ -93,15 +108,21 @@ const fetchPosts = ( button ) => {
 			}
 
 			//update button attributes
-			if (
-				+button.dataset.queryNextPage < +button.dataset.queryMaxPage
-			) {
-				button.dataset.queryNextPage =
-					+button.dataset.queryNextPage + 1;
+			if ( queryNextPage < queryMaxPage ) {
+				button.dataset.queryNextPage = queryNextPage + 1;
 				button.href =
-					button.dataset.queryUrl + button.dataset.queryNextPage;
+					'?' +
+					button.dataset.queryUrl +
+					'=' +
+					button.dataset.queryNextPage;
 			}
-
+		} )
+		.catch( ( error ) => {
+			//eslint-disable-next-line no-console
+			console.error( 'Fetch error:', error );
+		} )
+		//cleanup
+		.finally( () => {
 			//reset loading text and classes
 			button.classList.remove( 'loading' );
 
@@ -109,6 +130,16 @@ const fetchPosts = ( button ) => {
 				! button.classList.contains( 'wp-load-more__infinite-scroll' )
 			) {
 				button.innerText = button.dataset.loadMoreText;
+			}
+
+			const bcr = button.getBoundingClientRect();
+
+			// fix not triggering the callback if the button is still visible
+			// if button is visible - toggle observing to ensure the
+			// Intersection observer triggers the callback again
+			if ( bcr.bottom > 0 && bcr.top < window.innerHeight ) {
+				intersectionObserver.unobserve( button );
+				intersectionObserver.observe( button );
 			}
 		} );
 };

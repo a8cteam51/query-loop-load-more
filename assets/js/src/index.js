@@ -32,35 +32,61 @@ addFilter(
 			}
 
 			const { attributes, setAttributes } = props;
+			const {
+				loadMore,
+				infiniteScroll,
+				loadMoreText,
+				loadingText,
+				updateUrl,
+				infiniteScrollColor,
+				layout,
+				paginationArrow,
+			} = attributes;
+			const className = attributes.className || '';
+			const justifyContentClass = layout?.justifyContent
+				? `is-content-justification-${ layout?.justifyContent }`
+				: '';
 
 			// Update the load more attributes and add class to block.
 			const updateLoadMore = () => {
-				if ( attributes.loadMore ) {
-					props.attributes.className =
-						props.attributes.className.replace( 'load-more', '' );
+				let newClassName;
+
+				if ( loadMore ) {
+					newClassName = className
+						.split( ' ' )
+						.filter(
+							( item ) => item !== 'load-more' && item.trim()
+						)
+						.join( ' ' );
 				} else {
-					props.attributes.className =
-						props.attributes.className + ' load-more';
+					newClassName = className.trim() + ' load-more';
 				}
 
-				setAttributes( { loadMore: ! attributes.loadMore } );
+				setAttributes( {
+					loadMore: ! loadMore,
+					className: newClassName,
+				} );
 			};
 
 			// Update the infinite scroll attributes and add class to block.
 			const updateInfiniteScroll = () => {
-				if ( attributes.infiniteScroll ) {
-					props.attributes.className =
-						props.attributes.className.replace(
-							'infinite-scroll',
-							''
-						);
+				let newClassName;
+
+				if ( infiniteScroll ) {
+					newClassName = className
+						.split( ' ' )
+						.filter(
+							( item ) =>
+								item !== 'infinite-scroll' && item.trim()
+						)
+						.join( ' ' );
 				} else {
-					props.attributes.className =
-						props.attributes.className + ' infinite-scroll';
+					newClassName = className.trim() + ' infinite-scroll';
 				}
 
 				setAttributes( {
-					infiniteScroll: ! attributes.infiniteScroll,
+					infiniteScroll: ! infiniteScroll,
+					className: newClassName,
 				} );
 			};
 
@@ -71,7 +97,7 @@ addFilter(
 				chevron: '»',
 			};
 
-			const displayArrow = arrowMap[ attributes.paginationArrow ];
+			const displayArrow = arrowMap[ paginationArrow ];
 
 			return (
 				<>
@@ -84,22 +110,17 @@ addFilter(
 									'wp-load-more'
 								) }
 								onClick={ () => updateLoadMore() }
-								className={
-									attributes.loadMore && 'is-pressed'
-								}
+								className={ loadMore && 'is-pressed' }
 							/>
 						</ToolbarGroup>
 					</BlockControls>
 					<BlockEdit { ...props } />
 
 					{ /* If load more is selected, show a preview of either the button, or infinite scroll animation. */ }
-					{ attributes.loadMore &&
-						( ! attributes.infiniteScroll ? (
+					{ loadMore &&
+						( ! infiniteScroll ? (
 							<div
-								className={
-									'is-layout-flex wp-block-buttons load-more-button-wrap is-content-justification-' +
-									attributes.layout?.justifyContent
-								}
+								className={ `is-layout-flex wp-block-buttons load-more-button-wrap ${ justifyContentClass }` }
 							>
 								<div className="wp-block-button">
 									{ /* eslint-disable-next-line jsx-a11y/anchor-is-valid */ }
@@ -107,10 +128,10 @@ addFilter(
 										className="wp-block-button__link wp-load-more__button"
 										href="#"
 									>
-										{ attributes.loadMoreText }
+										{ loadMoreText }
 										{ displayArrow && (
 											<span
-												className={ `wp-block-query-pagination-next-arrow is-arrow-${ attributes.paginationArrow }` }
+												className={ `wp-block-query-pagination-next-arrow is-arrow-${ paginationArrow }` }
 												aria-hidden={ true }
 											>
 												{ displayArrow }
@@ -121,16 +142,12 @@ addFilter(
 							</div>
 						) : (
 							<div
-								className={
-									'is-layout-flex wp-load-more__infinite-scroll is-content-justification-' +
-									attributes.layout?.justifyContent
-								}
+								className={ `is-layout-flex wp-load-more__infinite-scroll  ${ justifyContentClass }` }
 							>
 								<div
 									className="animation-wrapper"
 									style={ {
-										borderColor:
-											attributes.infiniteScrollColor,
+										borderColor: infiniteScrollColor,
 									} }
 								>
 									<div></div>
@@ -146,26 +163,24 @@ addFilter(
 									'Use load more button?',
 									'wp-load-more'
 								) }
-								checked={ attributes.loadMore }
+								checked={ loadMore }
 								onChange={ () => updateLoadMore() }
 							/>
-							{ attributes.loadMore && (
+							{ loadMore && (
 								<>
 									<ToggleControl
 										label={ __(
 											'Use infinite scroll?',
 											'wp-load-more'
 										) }
-										checked={ attributes.infiniteScroll }
+										checked={ infiniteScroll }
 										onChange={ () =>
 											updateInfiniteScroll()
 										}
 									/>
-									{ attributes.infiniteScroll && (
+									{ infiniteScroll && (
 										<ColorPicker
-											color={
-												attributes.infiniteScrollColor
-											}
+											color={ infiniteScrollColor }
 											onChange={ ( value ) =>
 												setAttributes( {
 													infiniteScrollColor: value,
@@ -175,16 +190,14 @@ addFilter(
 											defaultValue="#000"
 										/>
 									) }
-									{ ! attributes.infiniteScroll && (
+									{ ! infiniteScroll && (
 										<>
 											<TextControl
 												label={ __(
 													'Load more button text',
 													'wp-load-more'
 												) }
-												value={
-													attributes.loadMoreText
-												}
+												value={ loadMoreText }
 												onChange={ ( value ) =>
 													setAttributes( {
 														loadMoreText: value,
@@ -196,7 +209,7 @@ addFilter(
 													'Loading text',
 													'wp-load-more'
 												) }
-												value={ attributes.loadingText }
+												value={ loadingText }
 												onChange={ ( value ) =>
 													setAttributes( {
 														loadingText: value,
@@ -205,6 +218,23 @@ addFilter(
 											/>
 										</>
 									) }
+
+									<ToggleControl
+										label={ __(
+											'Update URL',
+											'wp-load-more'
+										) }
+										help={ __(
+											'Updates the URL when loading more posts. This will display the latest added posts when reloading the page.',
+											'wp-load-more'
+										) }
+										checked={ updateUrl }
+										onChange={ ( value ) =>
+											setAttributes( {
+												updateUrl: value,
+											} )
+										}
+									/>
 								</>
 							) }
 						</PanelBody>

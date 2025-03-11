@@ -181,6 +181,12 @@ class Plugin {
 			'default' => esc_html__( 'Loading...', 'query-loop-load-more' ),
 		);
 
+		// Update URL.
+		$settings['attributes']['updateUrl'] = array(
+			'type'    => 'boolean',
+			'default' => false,
+		);
+
 		return $settings;
 	}
 
@@ -212,6 +218,7 @@ class Plugin {
 		$page_key         = $query_id ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
 		$inherit          = $block->context['query']['inherit'] ?? false;
 		$is_infinite      = $attributes['infiniteScroll'] ?? false;
+		$is_update_url    = $attributes['updateUrl'] ?? false;
 		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page_parameter   = $inherit ? 'paged' : $page_key;
 		$block_query      = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
@@ -235,13 +242,14 @@ class Plugin {
 
 			// Build list of load more links.
 			$block_content = sprintf(
-				'<a class="%1$s" href="?%2$s=%3$d" data-loading-text="%4$s" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="?%2$s=">%7$s%8$s</a>',
+				'<a class="%1$s" href="?%2$s=%3$d" data-loading-text="%4$s" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="%2$s" data-update-url="%7$s">%8$s%9$s</a>',
 				$button_classes,
 				$page_parameter,
 				$page + 1,
 				$is_infinite ? '' : esc_attr( $attributes['loadingText'] ),
 				$query_id,
 				$block_query->max_num_pages,
+				$is_update_url,
 				$is_infinite ? '' : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
 				$infinite_scroll_markup
 			);

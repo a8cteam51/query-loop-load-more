@@ -28,6 +28,16 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.7
+* Fix - Loading posts ( multiple query blocks, loading posts from correct post and query block )
+* Fix - URL related issues ( new setting for updating the URL, update paging parameter without changing base URL )
+* Update - New markup, Using only one button, including for infinite scroll
+* Update - Changed default behavior - not updating the URL by default - added a setting to re-enable
+* Update - Added build scripts for assets
+
+### 1.0.6
+* Update - Add loading class when in loading state
+
 ### 1.0.5
 * Fix - Infinite scroll would duplicate some posts due to the same AJAX call being executed twice
 

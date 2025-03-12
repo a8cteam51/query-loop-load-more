@@ -1,11 +1,8 @@
 body .wp-load-more__infinite-scroll {
 	pointer-events: none;
 	justify-content: center;
-	display: none;
+	display: flex;
 
-	&.loading {
-		display: flex;
-	}
 
 	&.is-content-justification-right {
 		justify-content: flex-end;
@@ -20,6 +17,7 @@ body .wp-load-more__infinite-scroll {
 		position: relative;
 		width: 32px;
 		height: 32px;
+		visibility: hidden;
 
 		div {
 			position: absolute;
@@ -36,16 +34,19 @@ body .wp-load-more__infinite-scroll {
 		}
 	}
 
+	&.loading {
+
+		.animation-wrapper {
+			visibility: visible;
+		}
+	}
+
 	+ .wp-block-buttons {
 		opacity: 0;
 		visibility: hidden;
 		overflow: hidden;
 		height: 1px;
 		pointer-events: none;
-
-		.wp-load-more__button + .wp-load-more__button {
-			display: none;
-		}
 	}
 }
 

@@ -72,7 +72,7 @@ const fetchPosts = ( button ) => {
 			// append the posts
 			if ( posts ) {
 				container.insertAdjacentHTML( 'beforeend', posts.innerHTML );
-			}
+			} 
 
 			const $button = button.closest( '.wp-block-button' );
 
@@ -137,7 +137,7 @@ const fetchPosts = ( button ) => {
 			// fix not triggering the callback if the button is still visible
 			// if button is visible - toggle observing to ensure the
 			// Intersection observer triggers the callback again
-			if ( bcr.bottom > 0 && bcr.top < window.innerHeight ) {
+			if ( button.classList.contains( 'wp-load-more__infinite-scroll' ) && bcr.bottom > 0 && bcr.top < window.innerHeight ) {
 				intersectionObserver.unobserve( button );
 				intersectionObserver.observe( button );
 			}

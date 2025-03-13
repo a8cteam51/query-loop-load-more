@@ -207,6 +207,8 @@ class Plugin {
 			return render_block_core_query_pagination( $attributes, $content );
 		}
 
+		global $wp_query;
+
 		$arrow_map = array(
 			'none'    => '',
 			'arrow'   => '→',
@@ -221,7 +223,7 @@ class Plugin {
 		$is_update_url    = $attributes['updateUrl'] ?? false;
 		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page_parameter   = $inherit ? 'paged' : $page_key;
-		$block_query      = new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
+		$block_query      = $inherit ? $wp_query : new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
 		$button_classes   = $is_infinite
 			? 'wp-load-more__button wp-load-more__infinite-scroll'
 			: 'wp-block-button__link wp-element-button wp-load-more__button';

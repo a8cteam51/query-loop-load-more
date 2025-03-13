@@ -28,6 +28,10 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.8
+* Fix - Only use intersection observer if infinite loading setting is active
+* Fix - Use global query to get maximum amount of pages if query is set to inherit
+
 ### 1.0.7
 * Fix - Loading posts ( multiple query blocks, loading posts from correct post and query block )
 * Fix - URL related issues ( new setting for updating the URL, update paging parameter without changing base URL )

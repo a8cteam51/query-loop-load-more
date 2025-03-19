@@ -1,6 +1,6 @@
 === Query Loop Load More ===
-Contributors: wpspecialprojects, tommusrhodus
-Tags: gutenberg, editor, block editor, load more, query loop
+Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes
+Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.7.2
 Stable tag: 1.0.8
@@ -8,24 +8,66 @@ Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Adds a load more option to the Query Loop Pagination block in Gutenberg, allowing users to load more posts without refreshing the page.
 
 == Description ==
 
-Adds a load more option to the Query Loop Pagination block in Gutenberg, allowing users to load more posts without refreshing the page.
+This WordPress plugin adds a load more option to the Query Loop Pagination block in Gutenberg, allowing users to load more posts without refreshing the page. It replaces the traditional `Previous` `Next` and numbered pagination, with a customizable, `Load More` button.
 
-To use this plugin, you must first add the Query Loop block into your post content, then add the Pagination block inside the Query Loop. When working with the Pagination block, you will see new options to enable load more on the block.
+== Installation ==
 
-The load more option allows you to set a loading text parameter and also the button text. The load more button works with the alignment options and arrow options of the pagination block.
+1. Upload the plugin files to the `/wp-content/plugins/query-loop-load-more` directory, or install the plugin through the WordPress plugins screen directly.
+2. Activate the plugin through the 'Plugins' screen in WordPress.
 
-Here is how to enable the load more option:
+== Instructions ==
 
-* Add the Query Loop block to your post content.
-* Inside the Query Loop block, add the Pagination block.
-* In the Pagination block settings, enable the "Load More" option.
-* Set the loading text parameter and the button text.
-* Customize the alignment and arrow options if desired.
-* That's it! Your visitors can now load more posts by clicking the load more button without refreshing the page.
+To use this plugin, you must first add the Query Loop block into your post content, then add the Pagination block inside the Query Loop. When working with the Pagination block, you will see new options to enable load more on the block.  
+The load more option allows you to set a loading text parameter and also the button text. The load more button works with the alignment options and arrow options of the pagination block.  
+Here is how to enable the load more option:  
+
+1. Add the Query Loop block to your post content.
+2. Inside the Query Loop block, add the Pagination block.
+3. In the Pagination block settings, enable the "Load More" option.
+4. Set the loading text parameter and the button text.
+5. Customize the alignment and arrow options if desired.
+
+That's it! Your visitors can now load more posts by clicking the load more button without refreshing the page.
+
+== Customization Options ==
+
+- **Alignment**: Use standard block editor settings to set the alignment of the load more button
+- **Button**: Choose the button option for users to click to load more posts
+- **Button Text**: Customize the load more button text
+- **Loading Text**: Customize the text for the post loading state
+- **Infinite Scroll**: Choose this option to allow new posts to load automatically when users reach the bottom of the feed
+- **Color**: Customize the color of the load more button and the loading state icon when using the infinite scroll option
+
+
+== Frequently Asked Questions ==
+
+**How can I download the plugin file?**
+
+You can download the file from the [WordPress.org plugin library here.](https://wordpress.org/plugins/query-loop-load-more/)
+
+**Where and how can I submit a bug report or feature request?**
+
+- You can share your feedback by creating an issue on our [public repo here](https://github.com/a8cteam51/query-loop-load-more/issues/new/choose). We can’t guarantee the turnaround time for bug fixes, but we can guarantee that all issues will be triaged.
+- The plugin is open source, so feel free to work on your desired functionality changes and create a PR with the fix.
+
+**How do I edit the text of the block?**	
+
+- In the block settings, you can replace the default text `Load More` with whatever text you’d like.
+
+**How do I change the color?**
+
+- In the current version, the button background color pulls from your theme’s button color.
+
+== Screenshots ==
+
+1. **Block Editor - Load More button**
+2. **Block Editor - Loading state animation**
+3. **Frontend - Posts loading with button**
+4. **Frontend - Infinite scroll post**
+
 
 == Changelog ==
 

@@ -1,0 +1,19 @@
+name: 'WordPress Plugin Readme/Assets Update'
+description: 'Deploy readme and asset updates to the WordPress Plugin Repository'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  trunk:
+    name: Push to trunk
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: WordPress.org plugin asset/readme update
+      uses: 10up/action-wordpress-plugin-asset-update@develop
+      env:
+        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+        SLUG: query-loop-load-more
+        IGNORE_OTHER_FILES: true

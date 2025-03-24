@@ -37,6 +37,10 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.9
+* Fix - Loading more posts for query blocks with no or zero as the queryId
+* Fix - Keeping original button content after loading more posts. Fixes pagination arrow
+
 ### 1.0.8
 * Fix - Only use intersection observer if infinite loading setting is active
 * Fix - Use global query to get maximum amount of pages if query is set to inherit

@@ -3,7 +3,7 @@ Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagono
 Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.7.2
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -70,6 +70,10 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.9 =
+* Fix - Loading more posts for query blocks with no or zero as the queryId
+* Fix - Keeping original button content after loading more posts. Fixes pagination arrow
 
 = 1.0.8 =
 * Fix - Only use intersection observer if infinite loading setting is active

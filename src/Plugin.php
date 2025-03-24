@@ -217,7 +217,7 @@ class Plugin {
 
 		// Get query context for current page number and query Id.
 		$query_id         = (int) $block->context['queryId'] ?? 0;
-		$page_key         = $query_id ? 'query-' . $block->context['queryId'] . '-page' : 'query-page';
+		$page_key         = isset( $block->context['queryId'] ) ? 'query-' . $query_id . '-page' : 'query-page';
 		$inherit          = $block->context['query']['inherit'] ?? false;
 		$is_infinite      = $attributes['infiniteScroll'] ?? false;
 		$is_update_url    = $attributes['updateUrl'] ?? false;
@@ -244,11 +244,11 @@ class Plugin {
 
 			// Build list of load more links.
 			$block_content = sprintf(
-				'<a class="%1$s" href="?%2$s=%3$d" data-loading-text="%4$s" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="%2$s" data-update-url="%7$s">%8$s%9$s</a>',
+				'<a class="%1$s" href="?%2$s=%3$d" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="%2$s" data-update-url="%7$s"><span class="qllm-loading">%4$s%9$s</span><span class="qllm-load-more">%8$s</span></a>',
 				$button_classes,
 				$page_parameter,
 				$page + 1,
-				$is_infinite ? '' : esc_attr( $attributes['loadingText'] ),
+				$is_infinite ? '' : esc_html( $attributes['loadingText'] ),
 				$query_id,
 				$block_query->max_num_pages,
 				$is_update_url,

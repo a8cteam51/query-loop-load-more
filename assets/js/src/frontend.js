@@ -17,9 +17,15 @@ const intersectionObserver = new window.IntersectionObserver(
 /**
  * Load page from server, extract and append new posts to button's query block.
  *
- * @param {*} button
+ * @param {*} target
  */
-const fetchPosts = ( button ) => {
+const fetchPosts = ( target ) => {
+	const button = target?.closest( '.wp-load-more__button' );
+
+	if ( ! button ) {
+		return;
+	}
+
 	const url = button.href;
 	const container = button
 		.closest( '.wp-block-query' )
@@ -39,9 +45,6 @@ const fetchPosts = ( button ) => {
 
 	//set loading text and classes
 	button.classList.add( 'loading' );
-	if ( ! button.classList.contains( 'wp-load-more__infinite-scroll' ) ) {
-		button.innerText = button.dataset.loadingText;
-	}
 
 	// Load posts via fetch from the button URL.
 	fetch( url, {
@@ -72,7 +75,7 @@ const fetchPosts = ( button ) => {
 			// append the posts
 			if ( posts ) {
 				container.insertAdjacentHTML( 'beforeend', posts.innerHTML );
-			} 
+			}
 
 			const $button = button.closest( '.wp-block-button' );
 
@@ -127,19 +130,17 @@ const fetchPosts = ( button ) => {
 			button.classList.remove( 'loading' );
 
 			if (
-				! button.classList.contains( 'wp-load-more__infinite-scroll' )
+				button.classList.contains( 'wp-load-more__infinite-scroll' )
 			) {
-				button.innerText = button.dataset.loadMoreText;
-			}
+				const bcr = button.getBoundingClientRect();
 
-			const bcr = button.getBoundingClientRect();
-
-			// fix not triggering the callback if the button is still visible
-			// if button is visible - toggle observing to ensure the
-			// Intersection observer triggers the callback again
-			if ( button.classList.contains( 'wp-load-more__infinite-scroll' ) && bcr.bottom > 0 && bcr.top < window.innerHeight ) {
-				intersectionObserver.unobserve( button );
-				intersectionObserver.observe( button );
+				// fix not triggering the callback if the button is still visible
+				// if button is visible - toggle observing to ensure the
+				// Intersection observer triggers the callback again
+				if ( bcr.bottom > 0 && bcr.top < window.innerHeight ) {
+					intersectionObserver.unobserve( button );
+					intersectionObserver.observe( button );
+				}
 			}
 		} );
 };
@@ -157,11 +158,6 @@ domReady( () => {
 			'.wp-load-more__button:not(.wp-load-more__infinite-scroll)'
 		)
 		.forEach( function ( button ) {
-			// store load more text
-			if ( button.dataset.loadMoreText === undefined ) {
-				button.dataset.loadMoreText = button.innerText;
-			}
-
 			//add listener
 			button.addEventListener( 'click', function ( e ) {
 				e.preventDefault();

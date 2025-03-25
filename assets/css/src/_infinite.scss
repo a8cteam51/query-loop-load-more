@@ -17,7 +17,6 @@ body .wp-load-more__infinite-scroll {
 		position: relative;
 		width: 32px;
 		height: 32px;
-		visibility: hidden;
 
 		div {
 			position: absolute;
@@ -31,13 +30,6 @@ body .wp-load-more__infinite-scroll {
 			&:nth-child(2) {
 				animation-delay: -0.5s;
 			}
-		}
-	}
-
-	&.loading {
-
-		.animation-wrapper {
-			visibility: visible;
 		}
 	}
 

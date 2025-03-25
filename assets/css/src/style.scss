@@ -3,7 +3,7 @@
 .wp-load-more__button {
 
 	.qllm-load-more {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		gap: var(--wp--preset--spacing--30);
 	}
@@ -15,7 +15,7 @@
 	&.loading {
 
 		.qllm-loading {
-			display: block;
+			display: inline-flex;
 		}
 
 		.qllm-load-more {

@@ -37,9 +37,12 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.10
+* Fix - Fixes load more button wrapping.
+
 ### 1.0.9
 * Fix - Loading more posts for query blocks with no or zero as the queryId
-* Fix - Keeping original button content after loading more posts. Fixes pagination arrow
+* Fix - Keeping original button content after loading more posts.
 
 ### 1.0.8
 * Fix - Only use intersection observer if infinite loading setting is active

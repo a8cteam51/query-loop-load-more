@@ -86,23 +86,53 @@ class Plugin {
 	}
 
 	/**
+	 * Returns true if all the plugin's dependencies are met.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 * @return  true|\WP_Error
+	 */
+	public function is_active(): bool|\WP_Error {
+		return true;
+	}
+
+	/**
+	 * Initializes the plugin components if WooCommerce is activated.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 * @return  void
+	 */
+	public function maybe_initialize(): void {
+		$is_active = $this->is_active();
+		if ( is_wp_error( $is_active ) ) {
+			wpcomsp_qllm_output_requirements_error( $is_active );
+			return;
+		}
+
+		$this->initialize();
+	}
+
+	/**
 	 * Enqueue assets for the plugin.
 	 *
 	 * @return void
 	 */
 	public function assets(): void {
-		$asset_meta = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/frontend.js' );
+		$asset_meta = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_DIR_PATH . 'assets/js/build/frontend.js' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/style-index.css',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/style-index.css',
 			array(),
 			$asset_meta['version']
 		);
 
 		wp_enqueue_script(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/frontend.js',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/frontend.js',
 			$asset_meta['dependencies'],
 			$asset_meta['version'],
 			true
@@ -115,18 +145,18 @@ class Plugin {
 	 * @return void
 	 */
 	public function editor_assets(): void {
-		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/index.js' );
+		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_DIR_PATH . 'assets/js/build/index.js' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/index.css',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/index.css',
 			array(),
 			$deps['version']
 		);
 
 		wp_enqueue_script(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/index.js',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/index.js',
 			$deps['dependencies'],
 			$deps['version'],
 			true

@@ -37,6 +37,11 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.11
+* Fix - Fixed warning about _load_textdomain_just_in_time.
+* ADDED - Javascript event document.qllmLoadStart when load more button is clicked.
+* ADDED - Javascript event document.qllmLoadEnd when loading is completed.
+
 ### 1.0.10
 * Fix - Fixes load more button wrapping.
 

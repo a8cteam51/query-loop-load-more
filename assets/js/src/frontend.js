@@ -1,5 +1,8 @@
 import domReady from '@wordpress/dom-ready';
 
+const qllmLoadStart = new Event( 'qllmLoadStart' );
+const qllmLoadEnd = new Event( 'qllmLoadEnd' );
+
 const intersectionObserver = new window.IntersectionObserver(
 	( entries ) => {
 		entries.forEach( ( entry ) => {
@@ -45,6 +48,9 @@ const fetchPosts = ( target ) => {
 
 	//set loading text and classes
 	button.classList.add( 'loading' );
+
+	//dispatch event
+	document.dispatchEvent( qllmLoadStart );
 
 	// Load posts via fetch from the button URL.
 	fetch( url, {
@@ -129,6 +135,9 @@ const fetchPosts = ( target ) => {
 			//reset loading text and classes
 			button.classList.remove( 'loading' );
 
+			//dispatch event
+			document.dispatchEvent( qllmLoadEnd );
+
 			if (
 				button.classList.contains( 'wp-load-more__infinite-scroll' )
 			) {
@@ -173,4 +182,5 @@ domReady( () => {
 		.forEach( function ( button ) {
 			intersectionObserver.observe( button );
 		} );
+
 } );

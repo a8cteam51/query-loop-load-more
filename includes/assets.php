@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @return  array|null
  */
 function wpcomsp_qllm_get_asset_meta( string $asset_path, ?array $extra_dependencies = null ): ?array {
-	if ( ! file_exists( $asset_path ) || ! str_starts_with( $asset_path, WPCOMSP_QLLM_PATH ) ) {
+	if ( ! file_exists( $asset_path ) || ! str_starts_with( $asset_path, WPCOMSP_QLLM_DIR_PATH ) ) {
 		return null;
 	}
 

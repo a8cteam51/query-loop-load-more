@@ -34,7 +34,6 @@
     "a8cteam51/team51-configs": "dev-trunk",
 
     "johnpbloch/wordpress-core": "6.2.*",
-    "wpackagist-plugin/woocommerce": "7.4.*",
 
     "wp-cli/i18n-command": "^2.4",
 

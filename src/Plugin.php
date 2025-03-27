@@ -86,23 +86,53 @@ class Plugin {
 	}
 
 	/**
+	 * Returns true if all the plugin's dependencies are met.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 * @return  true|\WP_Error
+	 */
+	public function is_active(): bool|\WP_Error {
+		return true;
+	}
+
+	/**
+	 * Initializes the plugin components if WooCommerce is activated.
+	 *
+	 * @since   1.0.0
+	 * @version 1.0.0
+	 *
+	 * @return  void
+	 */
+	public function maybe_initialize(): void {
+		$is_active = $this->is_active();
+		if ( is_wp_error( $is_active ) ) {
+			wpcomsp_qllm_output_requirements_error( $is_active );
+			return;
+		}
+
+		$this->initialize();
+	}
+
+	/**
 	 * Enqueue assets for the plugin.
 	 *
 	 * @return void
 	 */
 	public function assets(): void {
-		$asset_meta = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/frontend.js' );
+		$asset_meta = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_DIR_PATH . 'assets/js/build/frontend.js' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/style-index.css',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/style-index.css',
 			array(),
 			$asset_meta['version']
 		);
 
 		wp_enqueue_script(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/frontend.js',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/frontend.js',
 			$asset_meta['dependencies'],
 			$asset_meta['version'],
 			true
@@ -115,18 +145,18 @@ class Plugin {
 	 * @return void
 	 */
 	public function editor_assets(): void {
-		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_PATH . 'assets/js/build/index.js' );
+		$deps = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_DIR_PATH . 'assets/js/build/index.js' );
 
 		wp_enqueue_style(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/index.css',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/index.css',
 			array(),
 			$deps['version']
 		);
 
 		wp_enqueue_script(
 			'wpcomsp-qllm',
-			WPCOMSP_QLLM_URL . 'assets/js/build/index.js',
+			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/index.js',
 			$deps['dependencies'],
 			$deps['version'],
 			true
@@ -224,6 +254,7 @@ class Plugin {
 		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page_parameter   = $inherit ? 'paged' : $page_key;
 		$block_query      = $inherit ? $wp_query : new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
+		$max_pages        = '0' === $block->context['query']['pages'] ? $block_query->max_num_pages : (int) $block->context['query']['pages'];
 		$button_classes   = $is_infinite
 			? 'wp-load-more__button wp-load-more__infinite-scroll'
 			: 'wp-block-button__link wp-element-button wp-load-more__button';
@@ -240,7 +271,7 @@ class Plugin {
 		}
 
 		// more posts available
-		if ( $block_query->max_num_pages > $page ) {
+		if ( $page < $max_pages ) {
 
 			// Build list of load more links.
 			$block_content = sprintf(
@@ -250,7 +281,7 @@ class Plugin {
 				$page + 1,
 				$is_infinite ? '' : esc_html( $attributes['loadingText'] ),
 				$query_id,
-				$block_query->max_num_pages,
+				$max_pages,
 				$is_update_url,
 				$is_infinite ? '' : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
 				$infinite_scroll_markup

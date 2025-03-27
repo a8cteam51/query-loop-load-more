@@ -3,7 +3,7 @@ Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagono
 Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.7.2
-Stable tag: 1.0.9
+Stable tag: 1.0.11
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -70,6 +70,15 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.11 =
+* Fix - Fixed warning about _load_textdomain_just_in_time.
+* ADDED - Javascript event document.qllmLoadStart when load more button is clicked.
+* ADDED - Javascript event document.qllmLoadEnd when loading is completed.
+* FIX - The load more button now respects the max number of pages on a query if a limit was manually set.
+
+= 1.0.10 =
+* Fix - Fixes load more button wrapping.
 
 = 1.0.9 =
 * Fix - Loading more posts for query blocks with no or zero as the queryId

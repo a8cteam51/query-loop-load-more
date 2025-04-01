@@ -35,6 +35,13 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 - **Infinite Scroll**: Choose this option to allow new posts to load automatically when users reach the bottom of the feed
 - **Color**: Customize the color of the load more button and the loading state icon when using the infinite scroll option
 
+## Plugin Contributors
+- [Kim Clow]([url](https://profiles.wordpress.org/kimclow/))  
+- [Derek Hanson]([url](https://profiles.wordpress.org/dhansondesigns/)) 
+- [Tom Rhodes ]([url](https://profiles.wordpress.org/tommusrhodus/))
+- [Laetitia Mendes]([url](https://profiles.wordpress.org/mlaetitia/))
+- [Tony Hegyes]([url](https://href.li/?http://profiles.wordpress.org/ahegyes/))
+
 ## Changelog
 
 ### 1.0.11

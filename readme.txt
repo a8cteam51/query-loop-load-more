@@ -71,6 +71,9 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 == Changelog ==
 
+= 1.0.12 =
+* Fix - Fixed the query pages comparison check.
+
 = 1.0.11 =
 * Fix - Fixed warning about _load_textdomain_just_in_time.
 * ADDED - Javascript event document.qllmLoadStart when load more button is clicked.

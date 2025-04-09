@@ -254,7 +254,7 @@ class Plugin {
 		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page_parameter   = $inherit ? 'paged' : $page_key;
 		$block_query      = $inherit ? $wp_query : new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
-		$max_pages        = '0' === $block->context['query']['pages'] ? $block_query->max_num_pages : (int) $block->context['query']['pages'];
+		$max_pages        = empty( $block->context['query']['pages'] ) ? $block_query->max_num_pages : (int) $block->context['query']['pages'];
 		$button_classes   = $is_infinite
 			? 'wp-load-more__button wp-load-more__infinite-scroll'
 			: 'wp-block-button__link wp-element-button wp-load-more__button';

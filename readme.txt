@@ -3,7 +3,7 @@ Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagono
 Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.7.2
-Stable tag: 1.0.11
+Stable tag: 1.0.12
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html

@@ -37,6 +37,9 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.13
+* Fix - Fixed posts not loading on infinite scroll if site has no footer.
+
 ### 1.0.12
 * Fix - Fixed the query pages comparison check.
 

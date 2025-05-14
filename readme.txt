@@ -20,9 +20,9 @@ This WordPress plugin adds a load more option to the Query Loop Pagination block
 
 == Instructions ==
 
-To use this plugin, you must first add the Query Loop block into your post content, then add the Pagination block inside the Query Loop. When working with the Pagination block, you will see new options to enable load more on the block.  
-The load more option allows you to set a loading text parameter and also the button text. The load more button works with the alignment options and arrow options of the pagination block.  
-Here is how to enable the load more option:  
+To use this plugin, you must first add the Query Loop block into your post content, then add the Pagination block inside the Query Loop. When working with the Pagination block, you will see new options to enable load more on the block.
+The load more option allows you to set a loading text parameter and also the button text. The load more button works with the alignment options and arrow options of the pagination block.
+Here is how to enable the load more option:
 
 1. Add the Query Loop block to your post content.
 2. Inside the Query Loop block, add the Pagination block.
@@ -53,7 +53,7 @@ You can download the file from the [WordPress.org plugin library here.](https://
 - You can share your feedback by creating an issue on our [public repo here](https://github.com/a8cteam51/query-loop-load-more/issues/new/choose). We can’t guarantee the turnaround time for bug fixes, but we can guarantee that all issues will be triaged.
 - The plugin is open source, so feel free to work on your desired functionality changes and create a PR with the fix.
 
-**How do I edit the text of the block?**	
+**How do I edit the text of the block?**
 
 - In the block settings, you can replace the default text `Load More` with whatever text you’d like.
 
@@ -70,6 +70,9 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.13 =
+* Fix - Fixed posts not loading on infinite scroll if site has no footer.
 
 = 1.0.12 =
 * Fix - Fixed the query pages comparison check.

@@ -18,6 +18,28 @@ const intersectionObserver = new window.IntersectionObserver(
 );
 
 /**
+ * Check if we're at the bottom of the page
+ * @returns {boolean}
+ */
+const isAtBottom = () => {
+	return window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100;
+};
+
+/**
+ * Handle scroll event for infinite scroll
+ * @param {Event} e
+ */
+const handleScroll = ( e ) => {
+	const infiniteScrollButtons = document.querySelectorAll( '.wp-load-more__infinite-scroll' );
+
+	infiniteScrollButtons.forEach( ( button ) => {
+		if ( ! button.classList.contains( 'loading' ) && isAtBottom() ) {
+			fetchPosts( button );
+		}
+	} );
+};
+
+/**
  * Load page from server, extract and append new posts to button's query block.
  *
  * @param {*} target
@@ -183,4 +205,6 @@ domReady( () => {
 			intersectionObserver.observe( button );
 		} );
 
+	// Add scroll event listener for infinite scroll
+	window.addEventListener( 'scroll', handleScroll );
 } );

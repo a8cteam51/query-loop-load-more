@@ -10,6 +10,7 @@ import {
 	PanelBody,
 	TextControl,
 	ColorPicker,
+	BaseControl,
 } from '@wordpress/components';
 import { loop } from '@wordpress/icons';
 import { addFilter } from '@wordpress/hooks';
@@ -179,31 +180,28 @@ addFilter(
 										}
 									/>
 									{ infiniteScroll && (
-										<ColorPicker
-											color={ infiniteScrollColor }
-											onChange={ ( value ) =>
-												setAttributes( {
-													infiniteScrollColor: value,
-												} )
-											}
-											enableAlpha
-											defaultValue="#000"
-										/>
+										<>
+											<BaseControl
+												label={ __(
+													'Loading animation color',
+													'wp-load-more'
+												) }
+											/>
+											<ColorPicker
+												color={ infiniteScrollColor }
+												onChange={ ( value ) =>
+													setAttributes( {
+														infiniteScrollColor:
+															value,
+													} )
+												}
+												enableAlpha
+												defaultValue="#000"
+											/>
+										</>
 									) }
 									{ ! infiniteScroll && (
 										<>
-											<TextControl
-												label={ __(
-													'Load more button text',
-													'wp-load-more'
-												) }
-												value={ loadMoreText }
-												onChange={ ( value ) =>
-													setAttributes( {
-														loadMoreText: value,
-													} )
-												}
-											/>
 											<TextControl
 												label={ __(
 													'Loading text',
@@ -218,6 +216,23 @@ addFilter(
 											/>
 										</>
 									) }
+
+									<TextControl
+										label={ __(
+											'Load more button text',
+											'wp-load-more'
+										) }
+										help={ __(
+											'Text to display on the load more button. Also used as the button text for screen readers when infinite scroll is enabled.',
+											'wp-load-more'
+										) }
+										value={ loadMoreText }
+										onChange={ ( value ) =>
+											setAttributes( {
+												loadMoreText: value,
+											} )
+										}
+									/>
 
 									<ToggleControl
 										label={ __(

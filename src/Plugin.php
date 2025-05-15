@@ -275,7 +275,7 @@ class Plugin {
 
 			// Build list of load more links.
 			$block_content = sprintf(
-				'<a class="%1$s" href="?%2$s=%3$d" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="%2$s" data-update-url="%7$s"><span class="qllm-loading">%4$s%9$s</span><span class="qllm-load-more">%8$s</span></a>',
+				'<a class="%1$s" href="?%2$s=%3$d" data-query-next-page="%3$d" data-query-key="%5$d" data-query-max-page="%6$d" data-query-url="%2$s" data-update-url="%7$s"><span class="qllm-loading">%4$s%9$s</span><span class="qllm-load-more%10$s">%8$s</span></a>',
 				$button_classes,
 				$page_parameter,
 				$page + 1,
@@ -283,8 +283,9 @@ class Plugin {
 				$query_id,
 				$max_pages,
 				$is_update_url,
-				$is_infinite ? '' : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
-				$infinite_scroll_markup
+				$is_infinite ? esc_html( $attributes['loadMoreText'] ) : esc_html( $attributes['loadMoreText'] ) . $pagination_arrow,
+				$infinite_scroll_markup,
+				$is_infinite ? ' screen-reader-text' : '' // Note space at the beginning of the class name
 			);
 		} else {
 			//all posts loaded

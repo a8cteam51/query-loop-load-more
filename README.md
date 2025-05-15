@@ -37,6 +37,9 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.13
+* Fix - Fixed link without text when inifnite scroll is enabled.
+
 ### 1.0.12
 * Fix - Fixed the query pages comparison check.
 

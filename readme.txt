@@ -3,7 +3,7 @@ Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagono
 Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.7.2
-Stable tag: 1.0.13
+Stable tag: 1.0.14
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -70,6 +70,9 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.14 =
+* Fix - Fixed posts not loading on infinite scroll if site has no footer.
 
 = 1.0.13 =
 * Fix - Fixed link without text when inifnite scroll is enabled.

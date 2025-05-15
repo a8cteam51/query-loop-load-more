@@ -14,6 +14,7 @@ const intersectionObserver = new window.IntersectionObserver(
 	},
 	{
 		threshold: 0.5,
+		rootMargin: '100px',
 	}
 );
 

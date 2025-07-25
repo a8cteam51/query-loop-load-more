@@ -313,12 +313,14 @@ class Plugin {
 	 * @return string
 	 */
 	public function render_query_block( $block_content, $block ) {
+		static $region_counter = 0;
 
-		$region_counter = isset( $block['attrs']['queryId'] ) ? $block['attrs']['queryId'] : 1;
+		// If the queryId is set, use it, otherwise increment the region counter.
+		$query_id = isset( $block['attrs']['queryId'] ) ? $block['attrs']['queryId'] : $region_counter++;
 
 		$p = new WP_HTML_Tag_Processor( $block_content );
 		if ( $p->next_tag( array( 'class_name' => 'wp-block-post-template' ) ) ) {
-			$p->set_attribute( 'data-qllm-query-region', $region_counter );
+			$p->set_attribute( 'data-qllm-query-region', $query_id );
 			$block_content = $p->get_updated_html();
 		}
 

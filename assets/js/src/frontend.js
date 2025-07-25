@@ -183,5 +183,4 @@ domReady( () => {
 		.forEach( function ( button ) {
 			intersectionObserver.observe( button );
 		} );
-
 } );

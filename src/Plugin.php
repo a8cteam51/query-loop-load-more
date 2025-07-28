@@ -82,7 +82,7 @@ class Plugin {
 		add_filter( 'register_block_type_args', array( $this, 'block_meta' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
-		add_filter( 'render_block_core/query', array( $this, 'render_query_block' ), 20 );
+		add_filter( 'render_block_core/query', array( $this, 'render_query_block' ), 20, 2 );
 	}
 
 	/**
@@ -123,14 +123,14 @@ class Plugin {
 	public function assets(): void {
 		$asset_meta = wpcomsp_qllm_get_asset_meta( WPCOMSP_QLLM_DIR_PATH . 'assets/js/build/frontend.js' );
 
-		wp_enqueue_style(
+		wp_register_style(
 			'wpcomsp-qllm',
 			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/style-index.css',
 			array(),
 			$asset_meta['version']
 		);
 
-		wp_enqueue_script(
+		wp_register_script(
 			'wpcomsp-qllm',
 			WPCOMSP_QLLM_DIR_URL . 'assets/js/build/frontend.js',
 			$asset_meta['dependencies'],
@@ -172,7 +172,6 @@ class Plugin {
 	 * @return array
 	 */
 	public function block_meta( array $settings, string $name ): array {
-
 		// Check this is the query pagination block, and that the standard WP function exists for a fallback.
 		if ( 'core/query-pagination' !== $name || ! function_exists( 'render_block_core_query_pagination' ) ) {
 			return $settings;
@@ -216,6 +215,10 @@ class Plugin {
 			'type'    => 'boolean',
 			'default' => false,
 		);
+
+		// Adds conditional asset loading.
+		$settings['style_handles'][]  = 'wpcomsp-qllm';
+		$settings['script_handles'][] = 'wpcomsp-qllm';
 
 		return $settings;
 	}
@@ -288,7 +291,7 @@ class Plugin {
 				$is_infinite ? ' screen-reader-text' : '' // Note space at the beginning of the class name
 			);
 		} else {
-			//all posts loaded
+			// All posts loaded.
 			return '';
 		}
 
@@ -300,20 +303,24 @@ class Plugin {
 			</div>
 		';
 	}
+
 	/**
 	 * Add region-router attribute to the query block.
 	 *
-	 * @param string $block_content The block content.
+	 * @param string    $block_content The block content.
+	 * @param \WP_Block $block         The block instance.
 	 *
 	 * @return string
 	 */
-	public function render_query_block( $block_content ) {
+	public function render_query_block( $block_content, $block ) {
+		static $region_counter = 0;
 
-		static $region_counter = 1;
+		// If the queryId is set, use it, otherwise increment the region counter.
+		$query_id = isset( $block['attrs']['queryId'] ) ? $block['attrs']['queryId'] : $region_counter++;
 
 		$p = new WP_HTML_Tag_Processor( $block_content );
 		if ( $p->next_tag( array( 'class_name' => 'wp-block-post-template' ) ) ) {
-			$p->set_attribute( 'data-qllm-query-region', $region_counter++ );
+			$p->set_attribute( 'data-qllm-query-region', $query_id );
 			$block_content = $p->get_updated_html();
 		}
 

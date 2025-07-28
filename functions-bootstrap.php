@@ -81,7 +81,7 @@ function wpcomsp_qllm_get_plugin_version(): string {
  *
  * @param   string $min_wp_version The minimum WP version required to run.
  *
- * @return  bool
+ * @return  boolean
  */
 function wpcomsp_qllm_is_wp_version_compatible( $min_wp_version ) {
 	if ( ! function_exists( 'is_wp_version_compatible' ) ) {
@@ -96,7 +96,7 @@ function wpcomsp_qllm_is_wp_version_compatible( $min_wp_version ) {
  *
  * @param   string $min_php_version The minimum PHP version required to run.
  *
- * @return  bool
+ * @return  boolean
  */
 function wpcomsp_qllm_is_php_version_compatible( $min_php_version ) {
 	if ( ! function_exists( 'is_php_version_compatible' ) ) {
@@ -137,7 +137,7 @@ function wpcomsp_qllm_validate_requirements() {
 /**
  * Outputs an error that the system requirements weren't met.
  *
- * @param   \WP_Error $error          The error message to display.
+ * @param   \WP_Error $error The error message to display.
  *
  * @return  void
  */
@@ -147,13 +147,13 @@ function wpcomsp_qllm_output_requirements_error( $error ) {
 		static function () use ( $error ) {
 			$requirements_error = \wp_sprintf(
 				/* translators: 1: Plugin name, 2: Plugin version */
-				__( '<strong>%1$s (version %2$s)</strong> could not be initialized.', 'a8csp-scaffold' ),
+				__( '<strong>%1$s (version %2$s)</strong> could not be initialized.', 'query-loop-load-more' ),
 				wpcomsp_qllm_get_plugin_metadata( 'Name' ),
 				wpcomsp_qllm_get_plugin_metadata( 'Version' )
 			);
 
 			if ( $error->has_errors() ) {
-				$requirements_error .= ' ' . \__( 'Your environment does not meet all the system requirements listed below:', 'a8csp-scaffold' );
+				$requirements_error .= ' ' . \__( 'Your environment does not meet all the system requirements listed below:', 'query-loop-load-more' );
 				$requirements_error .= '<ul class="ul-disc">';
 
 				foreach ( $error->get_error_codes() as $error_code ) {
@@ -166,7 +166,7 @@ function wpcomsp_qllm_output_requirements_error( $error ) {
 						case 'plugin_wp_incompatible':
 							$error_message = wp_sprintf(
 								/* translators: 1: Current WP version, 2: Minimum WP version */
-								__( 'Current <em>WordPress version (%1$s)</em> does not meet minimum required version of %2$s.', 'a8csp-scaffold' ),
+								__( 'Current <em>WordPress version (%1$s)</em> does not meet minimum required version of %2$s.', 'query-loop-load-more' ),
 								get_bloginfo( 'version' ),
 								$error_data['requires_wp']
 							);
@@ -174,13 +174,13 @@ function wpcomsp_qllm_output_requirements_error( $error ) {
 						case 'plugin_php_incompatible':
 							$error_message = wp_sprintf(
 								/* translators: 1: Current PHP version, 2: Minimum PHP version */
-								__( 'Current <em>PHP version (%1$s)</em> does not meet minimum required version of %2$s.', 'a8csp-scaffold' ),
+								__( 'Current <em>PHP version (%1$s)</em> does not meet minimum required version of %2$s.', 'query-loop-load-more' ),
 								PHP_VERSION,
 								$error_data['requires_php']
 							);
 							break;
 						case 'missing_autoloader':
-							$error_message = __( 'The autoloader file is missing. Please run <code>composer install</code> to generate it.', 'a8csp-scaffold' );
+							$error_message = __( 'The autoloader file is missing. Please run <code>composer install</code> to generate it.', 'query-loop-load-more' );
 							break;
 						default:
 							$error_message = $error->get_error_message( $error_code );

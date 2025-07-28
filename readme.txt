@@ -1,13 +1,13 @@
 === Query Loop Load More ===
 Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes, robrobsn, kimclow, dhansondesigns
-Tags: editor, block editor, block, blocks, fse, query loop, gutenberg, full-site-editing, load more
+Tags: block editor, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.7.2
-Stable tag: 1.0.14
+Stable tag: 1.0.15
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-
+Short Description: Adds a load more option to the Query Loop Pagination block, allowing users to load more posts without a page refresh.
 
 == Description ==
 
@@ -70,6 +70,10 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.15 =
+* Optimisation - Assets only load on pages using a pagination block.
+* Fix - Query loops now correctly use QueryID, allows supporting multiple queries on the page.
 
 = 1.0.14 =
 * Fix - Fixed posts not loading on infinite scroll if site has no footer.

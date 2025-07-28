@@ -186,6 +186,7 @@ addFilter(
 													'Loading animation color',
 													'wp-load-more'
 												) }
+												id="infinite-scroll-color"
 											/>
 											<ColorPicker
 												color={ infiniteScrollColor }

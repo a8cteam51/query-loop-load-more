@@ -31,9 +31,7 @@ const fetchPosts = ( target ) => {
 	}
 
 	const url = button.href;
-	const container = button
-		.closest( '.wp-block-query' )
-		?.querySelector( '.wp-block-post-template' );
+	const container = button.closest( '.wp-block-query' );
 
 	// return early if button is still loading or required data not found
 	if ( button.classList.contains( 'loading' ) || ! container || ! url ) {
@@ -76,12 +74,12 @@ const fetchPosts = ( target ) => {
 
 			// find container in fetched HTML matching container's region
 			const posts = temp.querySelector(
-				`.wp-block-post-template[data-qllm-query-region="${ containerRegion }"]`
+				`.wp-block-query[data-qllm-query-region="${ containerRegion }"] .wp-block-post-template`
 			);
 
 			// append the posts
 			if ( posts ) {
-				container.insertAdjacentHTML( 'beforeend', posts.innerHTML );
+				container.querySelector( '.wp-block-post-template' )?.insertAdjacentHTML( 'beforeend', posts.innerHTML );
 			}
 
 			const $button = button.closest( '.wp-block-button' );

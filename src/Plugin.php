@@ -82,7 +82,7 @@ class Plugin {
 		add_filter( 'register_block_type_args', array( $this, 'block_meta' ), 10, 2 );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'editor_assets' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'assets' ) );
-		add_filter( 'render_block_core/query', array( $this, 'render_query_block' ), 20, 2 );
+		add_filter( 'render_block_core/query', array( $this, 'render_query_block' ), 20 );
 	}
 
 	/**
@@ -307,20 +307,17 @@ class Plugin {
 	/**
 	 * Add region-router attribute to the query block.
 	 *
-	 * @param string    $block_content The block content.
-	 * @param \WP_Block $block         The block instance.
+	 * @param string $block_content The block content.
 	 *
 	 * @return string
 	 */
-	public function render_query_block( $block_content, $block ) {
-		static $region_counter = 0;
-
-		// If the queryId is set, use it, otherwise increment the region counter.
-		$query_id = isset( $block['attrs']['queryId'] ) ? $block['attrs']['queryId'] : $region_counter++;
+	public function render_query_block( $block_content ) {
+		static $region_counter = 1;
 
 		$p = new WP_HTML_Tag_Processor( $block_content );
-		if ( $p->next_tag( array( 'class_name' => 'wp-block-post-template' ) ) ) {
-			$p->set_attribute( 'data-qllm-query-region', $query_id );
+
+		if ( $p->next_tag( array( 'class_name' => 'wp-block-query' ) ) ) {
+			$p->set_attribute( 'data-qllm-query-region', $region_counter++ );
 			$block_content = $p->get_updated_html();
 		}
 

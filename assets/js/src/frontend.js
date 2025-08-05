@@ -78,14 +78,15 @@ const fetchPosts = ( target ) => {
 			);
 
 			// append the posts
-			if ( posts ) {
-				container.querySelector( '.wp-block-post-template' )?.insertAdjacentHTML( 'beforeend', posts.innerHTML );
+			const targetTpl = container.querySelector('.wp-block-post-template');
+			if ( targetTpl && posts ) {
+				targetTpl.insertAdjacentHTML('beforeend', posts.innerHTML);
 			}
 
-			const $button = button.closest( '.wp-block-button' );
+			const buttonElement = button.closest( '.wp-block-button' );
 
-			if ( $button ) {
-				$button.classList.remove( 'loading' );
+			if ( buttonElement ) {
+				buttonElement.classList.remove( 'loading' );
 			}
 
 			const queryNextPage = +button.dataset.queryNextPage;

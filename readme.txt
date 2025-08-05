@@ -2,8 +2,8 @@
 Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes, robrobsn, kimclow, dhansondesigns
 Tags: block editor, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
-Tested up to: 6.7.2
-Stable tag: 1.0.15
+Tested up to: 6.8.2
+Stable tag: 1.0.16
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -70,6 +70,9 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.16 =
+* Fix - Makes query loops QueryID agnostic and fixes multiple loops in a page where one exhausts before the other.
 
 = 1.0.15 =
 * Optimisation - Assets only load on pages using a pagination block.

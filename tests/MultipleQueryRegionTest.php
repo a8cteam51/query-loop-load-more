@@ -13,7 +13,10 @@ class MultipleQueryRegionTest extends TestCase {
     }
 
     private function createStickyPostsBlock($queryId) {
-        return (object) [
+        return [
+            'attrs' => [
+                'queryId' => $queryId
+            ],
             'context' => [
                 'queryId' => $queryId,
                 'query' => [
@@ -36,7 +39,10 @@ class MultipleQueryRegionTest extends TestCase {
     }
 
     private function createNormalPostsBlock($queryId) {
-        return (object) [
+        return [
+            'attrs' => [
+                'queryId' => $queryId
+            ],
             'context' => [
                 'queryId' => $queryId,
                 'query' => [

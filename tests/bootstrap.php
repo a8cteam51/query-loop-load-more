@@ -18,18 +18,20 @@ class WP_HTML_Tag_Processor {
     }
 
     public function next_tag($args = []) {
-        if (isset($args['class_name']) && $args['class_name'] === 'wp-block-query') {
-            return strpos($this->html, 'wp-block-query') !== false;
+        if (isset($args['class_name'])) {
+            return strpos($this->html, $args['class_name']) !== false;
         }
         return false;
     }
 
     public function set_attribute($name, $value) {
-        $this->html = str_replace(
-            '<div class="wp-block-query"',
-            "<div class=\"wp-block-query\" {$name}=\"{$value}\"",
-            $this->html
-        );
+        if (strpos($this->html, 'wp-block-post-template') !== false) {
+            $this->html = str_replace(
+                '<div class="wp-block-post-template"',
+                "<div class=\"wp-block-post-template\" {$name}=\"{$value}\"",
+                $this->html
+            );
+        }
     }
 
     public function get_updated_html() {

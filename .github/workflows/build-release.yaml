@@ -14,6 +14,9 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
+      - name: Run tests
+        run: composer test
+
       - name: Install dependencies
         run: |
           composer run-script packages-install -- --no-dev

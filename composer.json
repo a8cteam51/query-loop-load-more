@@ -27,7 +27,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.3",
     "ext-json": "*"
   },
   "require-dev": {
@@ -36,6 +36,8 @@
     "johnpbloch/wordpress-core": "6.2.*",
 
     "wp-cli/i18n-command": "^2.4",
+
+    "phpunit/phpunit": "^9.6",
 
     "squizlabs/php_codesniffer": "3.*",
     "dealerdirect/phpcodesniffer-composer-installer": "*",
@@ -56,6 +58,8 @@
 
   "scripts": {
     "generate-autoloader": "@composer dump-autoload -o",
+
+    "test": "phpunit",
 
     "format:php": "phpcbf --standard=./.phpcs.xml --basepath=. . -v",
     "lint:php": "phpcs --standard=./.phpcs.xml --basepath=. . -v",

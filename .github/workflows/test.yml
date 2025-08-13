@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  pull_request:
+    branches: [ trunk ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Run tests
+        run: composer test

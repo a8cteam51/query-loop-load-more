@@ -254,7 +254,9 @@ class Plugin {
 		$inherit          = $block->context['query']['inherit'] ?? false;
 		$is_infinite      = $attributes['infiniteScroll'] ?? false;
 		$is_update_url    = $attributes['updateUrl'] ?? false;
-		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$page = $inherit
+			? ( get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1 )
+			: ( empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page_parameter   = $inherit ? 'paged' : $page_key;
 		$block_query      = $inherit ? $wp_query : new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
 		$max_pages        = empty( $block->context['query']['pages'] ) ? $block_query->max_num_pages : (int) $block->context['query']['pages'];

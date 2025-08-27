@@ -161,19 +161,15 @@ domReady( () => {
 	'use strict';
 
 	//load more buttons
-	// prepare buttons and add listeners
-	document
-		.querySelectorAll(
-			'.wp-load-more__button:not(.wp-load-more__infinite-scroll)'
-		)
-		.forEach( function ( button ) {
-			//add listener
-			button.addEventListener( 'click', function ( e ) {
-				e.preventDefault();
-
-				fetchPosts( e.target );
-			} );
-		} );
+	// Delegated click handler for non-infinite buttons
+	document.addEventListener( 'click', function ( e ) {
+		const btn = e.target.closest( '.wp-load-more__button:not(.wp-load-more__infinite-scroll)' );
+		if ( ! btn ) {
+			return;
+		}
+		e.preventDefault();
+		fetchPosts( btn );
+	} );
 
 	// infinite scroll
 	// add listeners

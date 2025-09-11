@@ -42,8 +42,18 @@ body .wp-load-more__infinite-scroll {
 	}
 }
 
-@keyframes load-more-ripple {
+body .wp-block-post-template__no-more-posts {
+	~ .wp-block-buttons {
+		visibility: visible;
+		height: unset;
+		overflow: unset;
+		justify-content: center;
+		pointer-events: none;
+		opacity: 0.5;
+	}
+}
 
+@keyframes load-more-ripple {
 	0% {
 		top: 50%;
 		left: 50%;

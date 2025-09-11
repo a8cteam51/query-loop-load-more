@@ -78,9 +78,11 @@ const fetchPosts = ( target ) => {
 			);
 
 			// append the posts
-			const targetTpl = container.querySelector('.wp-block-post-template');
+			const targetTpl = container.querySelector(
+				'.wp-block-post-template'
+			);
 			if ( targetTpl && posts ) {
-				targetTpl.insertAdjacentHTML('beforeend', posts.innerHTML);
+				targetTpl.insertAdjacentHTML( 'beforeend', posts.innerHTML );
 			}
 
 			const buttonElement = button.closest( '.wp-block-button' );
@@ -111,7 +113,21 @@ const fetchPosts = ( target ) => {
 					intersectionObserver.unobserve( button );
 				}
 
-				button.closest( '.wp-block-buttons' )?.remove();
+				const nextElement = button.nextElementSibling;
+
+				if (
+					nextElement &&
+					nextElement.classList.contains(
+						'wp-load-more__button__no-more-posts'
+					)
+				) {
+					button?.remove();
+					container.classList.add(
+						'wp-block-post-template__no-more-posts'
+					);
+				} else {
+					button.closest( '.wp-block-buttons' )?.remove();
+				}
 
 				return;
 			}

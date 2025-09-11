@@ -201,6 +201,18 @@ addFilter(
 											/>
 										</>
 									) }
+									<TextControl
+										label={ __(
+											'No More Posts Text',
+											'wp-load-more'
+										) }
+										value={ attributes.noMorePostsText }
+										onChange={ ( value ) =>
+											setAttributes( {
+												noMorePostsText: value,
+											} )
+										}
+									/>
 									{ ! infiniteScroll && (
 										<>
 											<TextControl

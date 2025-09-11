@@ -22,4 +22,14 @@
 			display: none;
 		}
 	}
+
+	&__no-more-posts {
+		pointer-events: none;
+		opacity: 0.5;
+	}
+
+	+ .wp-load-more__button__no-more-posts {
+      /* Hidden while the load more button (prev sibling) exists */
+		display: none;
+	}
 }

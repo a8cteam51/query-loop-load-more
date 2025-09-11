@@ -210,6 +210,12 @@ class Plugin {
 			'default' => esc_html__( 'Loading...', 'query-loop-load-more' ),
 		);
 
+		// No more posts text attribute.
+		$settings['attributes']['noMorePostsText'] = array(
+			'type'    => 'string',
+			'default' => __( 'No More Posts', 'query-loop-load-more' ),
+		);
+
 		// Update URL.
 		$settings['attributes']['updateUrl'] = array(
 			'type'    => 'boolean',
@@ -293,6 +299,16 @@ class Plugin {
 		} else {
 			// All posts loaded.
 			return '';
+		}
+
+		if ( $block_content && ! empty( $attributes['noMorePostsText'] ) ) {
+			// Add element for the `no more posts` text.
+			$block_content .= sprintf(
+				'<a class="%s" href="%s">%s</a>',
+				'wp-block-button__link wp-element-button wp-load-more__button__no-more-posts',
+				'#',
+				esc_html( $attributes['noMorePostsText'] ),
+			);
 		}
 
 		return '

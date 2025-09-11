@@ -71,6 +71,9 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 == Changelog ==
 
+### 1.0.17
+* Add - No More Posts text option and functionality
+
 = 1.0.16 =
 * Fix - Makes query loops QueryID agnostic and fixes multiple loops in a page where one exhausts before the other.
 

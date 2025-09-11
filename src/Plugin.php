@@ -307,7 +307,7 @@ class Plugin {
 				'<a class="%s" href="%s">%s</a>',
 				'wp-block-button__link wp-element-button wp-load-more__button__no-more-posts',
 				'#',
-				esc_attr( $attributes['noMorePostsText'] ),
+				esc_html( $attributes['noMorePostsText'] ),
 			);
 		}
 

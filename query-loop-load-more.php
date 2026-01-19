@@ -4,9 +4,9 @@
  * Plugin URI:              https://github.com/a8cteam51/query-loop-load-more
  * Description:             Adds a load more option to the Query Loop Pagination block in Gutenberg.
  * Short Description:       Adds a load more option to the Query Loop Pagination block, allowing users to load more posts without a page refresh.
- * Version:                 1.0.16
+ * Version:                 1.0.17
  * Requires at least:       6.2
- * Tested up to:            6.8.2
+ * Tested up to:            6.9
  * Requires PHP:            8.0
  * Author:                  WordPress.com Special Projects
  * Author URI:              https://wpspecialprojects.wordpress.com

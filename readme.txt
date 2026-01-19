@@ -2,8 +2,8 @@
 Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes, robrobsn, kimclow, dhansondesigns
 Tags: block editor, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
-Tested up to: 6.8.2
-Stable tag: 1.0.16
+Tested up to: 6.9
+Stable tag: 1.0.17
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -40,6 +40,7 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 - **Loading Text**: Customize the text for the post loading state
 - **Infinite Scroll**: Choose this option to allow new posts to load automatically when users reach the bottom of the feed
 - **Color**: Customize the color of the load more button and the loading state icon when using the infinite scroll option
+- **Update URL**: Choose this option to update the browser's URL when loading more posts
 
 
 == Frequently Asked Questions ==
@@ -70,6 +71,10 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.17 =
+* Fix - Select the proper paged parameter for inherited queries.
+* Fix - Keep current URL parameters when fetching new posts and updating the location URL.
 
 = 1.0.16 =
 * Fix - Makes query loops QueryID agnostic and fixes multiple loops in a page where one exhausts before the other.

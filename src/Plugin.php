@@ -249,7 +249,7 @@ class Plugin {
 		);
 
 		// Get query context for current page number and query Id.
-		$query_id       = (int) $block->context['queryId'] ?? 0;
+		$query_id       = (int) ( $block->context['queryId'] ?? 0 );
 		$page_key       = isset( $block->context['queryId'] ) ? 'query-' . $query_id . '-page' : 'query-page';
 		$inherit        = $block->context['query']['inherit'] ?? false;
 		$is_infinite    = $attributes['infiniteScroll'] ?? false;

@@ -73,8 +73,11 @@ You can download the file from the [WordPress.org plugin library here.](https://
 == Changelog ==
 
 = 1.0.17 =
-* Fix - Select the proper paged parameter for inherited queries.
-* Fix - Keep current URL parameters when fetching new posts and updating the location URL.
+* Fix - potential issue infinite scroll not triggering if button is at the bottom of the viewport
+* Fix - Page parameter for inherited queries
+* Fix - Page parameter for custom query page when not set
+* Fix - Keep current URL parameters when fetching new posts and updating the location URL
+* Update - Changed event listener of manual load more buttons to be attached to the document instead of each individual button
 
 = 1.0.16 =
 * Fix - Makes query loops QueryID agnostic and fixes multiple loops in a page where one exhausts before the other.

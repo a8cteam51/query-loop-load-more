@@ -3,6 +3,17 @@ import domReady from '@wordpress/dom-ready';
 const qllmLoadStart = new Event( 'qllmLoadStart' );
 const qllmLoadEnd = new Event( 'qllmLoadEnd' );
 
+const getUrlWithParam = ( param = '', value = '' ) => {
+	// new URL based on current URL
+	const url = new URL( window.location.href );
+
+	if ( param !== '' ) {
+		url.searchParams.set( param, value );
+	}
+
+	return url;
+};
+
 const intersectionObserver = new window.IntersectionObserver(
 	( entries ) => {
 		entries.forEach( ( entry ) => {
@@ -14,7 +25,7 @@ const intersectionObserver = new window.IntersectionObserver(
 	},
 	{
 		threshold: 0.5,
-		rootMargin: '100px',
+		rootMargin: '0px',
 	}
 );
 
@@ -29,21 +40,22 @@ const fetchPosts = ( target ) => {
 	if ( ! button ) {
 		return;
 	}
-
-	const url = button.href;
 	const container = button.closest( '.wp-block-query' );
 
 	// return early if button is still loading or required data not found
-	if ( button.classList.contains( 'loading' ) || ! container || ! url ) {
+	if (
+		button.classList.contains( 'loading' ) ||
+		! container ||
+		! button.dataset.queryUrl ||
+		! button.dataset.queryNextPage
+	) {
 		return;
 	}
 
-	const fetchUrl = new URL( url, window.location.origin );
-
-	//Not allowed to fetch from other origin
-	if ( fetchUrl.origin !== window.location.origin ) {
-		return;
-	}
+	const fetchUrl = getUrlWithParam(
+		button.dataset.queryUrl,
+		button.dataset.queryNextPage
+	);
 
 	//set loading text and classes
 	button.classList.add( 'loading' );
@@ -52,7 +64,7 @@ const fetchPosts = ( target ) => {
 	document.dispatchEvent( qllmLoadStart );
 
 	// Load posts via fetch from the button URL.
-	fetch( url, {
+	fetch( fetchUrl, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'text/html',
@@ -78,9 +90,11 @@ const fetchPosts = ( target ) => {
 			);
 
 			// append the posts
-			const targetTpl = container.querySelector('.wp-block-post-template');
+			const targetTpl = container.querySelector(
+				'.wp-block-post-template'
+			);
 			if ( targetTpl && posts ) {
-				targetTpl.insertAdjacentHTML('beforeend', posts.innerHTML);
+				targetTpl.insertAdjacentHTML( 'beforeend', posts.innerHTML );
 			}
 
 			const buttonElement = button.closest( '.wp-block-button' );
@@ -94,12 +108,11 @@ const fetchPosts = ( target ) => {
 
 			//update URL
 			if ( button.dataset.updateUrl ) {
-				const newUrl = new URL( window.location.href );
-
-				newUrl.searchParams.set(
+				const newUrl = getUrlWithParam(
 					button.dataset.queryUrl,
 					queryNextPage
 				);
+
 				window.history.pushState( {}, '', newUrl );
 			}
 
@@ -119,11 +132,13 @@ const fetchPosts = ( target ) => {
 			//update button attributes
 			if ( queryNextPage < queryMaxPage ) {
 				button.dataset.queryNextPage = queryNextPage + 1;
-				button.href =
-					'?' +
-					button.dataset.queryUrl +
-					'=' +
-					button.dataset.queryNextPage;
+
+				const url = getUrlWithParam(
+					button.dataset.queryUrl,
+					button.dataset.queryNextPage
+				);
+
+				button.href = url.toString();
 			}
 		} )
 		.catch( ( error ) => {
@@ -160,20 +175,18 @@ const fetchPosts = ( target ) => {
 domReady( () => {
 	'use strict';
 
-	//load more buttons
-	// prepare buttons and add listeners
-	document
-		.querySelectorAll(
+	// load more buttons
+	// add listeners
+	document.addEventListener( 'click', function ( e ) {
+		const btn = e.target.closest(
 			'.wp-load-more__button:not(.wp-load-more__infinite-scroll)'
-		)
-		.forEach( function ( button ) {
-			//add listener
-			button.addEventListener( 'click', function ( e ) {
-				e.preventDefault();
-
-				fetchPosts( e.target );
-			} );
-		} );
+		);
+		if ( ! btn ) {
+			return;
+		}
+		e.preventDefault();
+		fetchPosts( btn );
+	} );
 
 	// infinite scroll
 	// add listeners

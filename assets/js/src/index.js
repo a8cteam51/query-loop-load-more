@@ -241,7 +241,7 @@ addFilter(
 											'wp-load-more'
 										) }
 										help={ __(
-											'Updates the URL when loading more posts. This will display the latest added posts when reloading the page.',
+											"Updates the browser's URL when loading more posts. This will display the last set of loaded posts instead of the initially loaded posts when reloading the page. ( e.g.: after loading page 2 the URL will be updated to load page 2 instead of 1 when reloading the page )",
 											'wp-load-more'
 										) }
 										checked={ updateUrl }

@@ -249,13 +249,21 @@ class Plugin {
 		);
 
 		// Get query context for current page number and query Id.
-		$query_id         = (int) $block->context['queryId'] ?? 0;
-		$page_key         = isset( $block->context['queryId'] ) ? 'query-' . $query_id . '-page' : 'query-page';
-		$inherit          = $block->context['query']['inherit'] ?? false;
-		$is_infinite      = $attributes['infiniteScroll'] ?? false;
-		$is_update_url    = $attributes['updateUrl'] ?? false;
-		$page             = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$page_parameter   = $inherit ? 'paged' : $page_key;
+		$query_id       = (int) ( $block->context['queryId'] ?? 0 );
+		$page_key       = isset( $block->context['queryId'] ) ? 'query-' . $query_id . '-page' : 'query-page';
+		$inherit        = $block->context['query']['inherit'] ?? false;
+		$is_infinite    = $attributes['infiniteScroll'] ?? false;
+		$is_update_url  = $attributes['updateUrl'] ?? false;
+		$page_parameter = $inherit ? 'paged' : $page_key;
+		// Get current page number.
+		// Inherited queries will use the current page number from the global $wp_query object
+		// or 1 as a fallback. Non-paged $wp_query objects have the paged attribute set to 0.
+		if ( $inherit ) {
+			$page = $wp_query->is_paged ? (int) $wp_query->get( 'paged' ) : 1;
+			// Custom queries will use the page number based on the query id or 1 as a fallback.
+		} else {
+			$page = (int) ( $_GET[ $page_key ] ?? 1 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
 		$block_query      = $inherit ? $wp_query : new \WP_Query( build_query_vars_from_query_block( $block, $page ) );
 		$max_pages        = empty( $block->context['query']['pages'] ) ? $block_query->max_num_pages : (int) $block->context['query']['pages'];
 		$button_classes   = $is_infinite

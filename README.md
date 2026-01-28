@@ -34,8 +34,23 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 - **Loading Text**: Customize the text for the post loading state
 - **Infinite Scroll**: Choose this option to allow new posts to load automatically when users reach the bottom of the feed
 - **Color**: Customize the color of the load more button and the loading state icon when using the infinite scroll option
+- **Update URL**: Choose this option to update the browser's URL when loading more posts
 
 ## Changelog
+
+### 1.0.17
+* Fix - potential issue infinite scroll not triggering if button is at the bottom of the viewport
+* Fix - Page parameter for inherited queries
+* Fix - Page parameter for custom query page when not set
+* Fix - Keep current URL parameters when fetching new posts and updating the location URL
+* Update - Changed event listener of manual load more buttons to be attached to the document instead of each individual button
+
+### 1.0.16
+* Fix - Makes query loops QueryID agnostic and fixes multiple loops in a page where one exhausts before the other.
+
+### 1.0.15
+* Optimisation - Assets only load on pages using a pagination block.
+* Fix - Query loops now correctly use QueryID, allows supporting multiple queries on the page.
 
 ### 1.0.14
 * Fix - Fixed posts not loading on infinite scroll if site has no footer.

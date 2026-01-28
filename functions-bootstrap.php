@@ -114,7 +114,7 @@ function wpcomsp_qllm_is_php_version_compatible( $min_php_version ) {
 function wpcomsp_qllm_validate_requirements() {
 	$plugin_metadata = wpcomsp_qllm_get_plugin_metadata();
 	if ( ! isset( $plugin_metadata['RequiresPHP'] ) || '' === $plugin_metadata['RequiresPHP'] ) {
-		$plugin_metadata['RequiresPHP'] = '8.3';
+		$plugin_metadata['RequiresPHP'] = '8.0';
 	}
 	if ( ! isset( $plugin_metadata['RequiresWP'] ) || '' === $plugin_metadata['RequiresWP'] ) {
 		$plugin_metadata['RequiresWP'] = '6.7';

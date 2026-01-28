@@ -27,7 +27,7 @@
     }
   ],
   "require": {
-    "php": ">=8.3",
+    "php": ">=8.0",
     "ext-json": "*"
   },
   "require-dev": {
@@ -81,6 +81,9 @@
     ]
   },
   "config": {
+    "platform": {
+      "php": "8.3.0"
+    },
     "allow-plugins": {
       "composer/*": true,
       "dealerdirect/phpcodesniffer-composer-installer": true,

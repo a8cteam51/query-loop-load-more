@@ -3,7 +3,7 @@ Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagono
 Tags: block editor, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.9
-Stable tag: 1.0.17
+Stable tag: 1.0.18
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -71,6 +71,9 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.18 =
+* Fix - Updated composer.json PHP requirement from 8.3 to 8.0 to match plugin requirements
 
 = 1.0.17 =
 * Fix - potential issue infinite scroll not triggering if button is at the bottom of the viewport

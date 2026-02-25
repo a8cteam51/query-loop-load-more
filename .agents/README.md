@@ -18,3 +18,4 @@ This directory holds agent-readable artifacts for autonomous development on this
 | Skill | Purpose |
 |-------|---------|
 | `skills/prepare-plugin-release/` | Checklist for version bump, changelog, i18n, and build before releasing |
+| `skills/run-plugin-tests/` | How to run PHPUnit tests, single-file/method options, when to run |

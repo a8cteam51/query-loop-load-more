@@ -42,8 +42,10 @@ query-loop-load-more/
 │   └── css/
 │       └── src/               # SCSS source (imported by index.js/style.scss)
 ├── languages/                  # i18n (query-loop-load-more.pot)
+├── tests/                      # PHPUnit tests (no WordPress install required)
+├── phpunit.xml                 # PHPUnit config
 ├── .github/workflows/          # CI: build-release, push-deploy, wp-readme-assets-update
-├── composer.json               # PHP deps, scripts (lint, i18n, etc.)
+├── composer.json               # PHP deps, scripts (lint, test, i18n, etc.)
 └── package.json               # npm deps, build/lint scripts
 ```
 
@@ -87,6 +89,15 @@ composer run makemo            # Generate .mo files (optional)
 ```bash
 npm run start    # Watches assets and blocks (blocks dir may be empty; assets still build)
 ```
+
+### Tests
+
+```bash
+composer install    # Include dev deps (phpunit)
+composer test       # Run PHPUnit
+```
+
+Tests are PHPUnit-based, live in `tests/`, and use a minimal bootstrap (no WordPress install required). See `.agents/skills/run-plugin-tests/` for detailed instructions, troubleshooting, and when to run tests.
 
 ---
 

@@ -3,8 +3,8 @@
   "version": "1.0.17",
   "description": "A qllm for WP.com Special Projects plugins",
   "author": {
-    "name": "WordPress.com Special Projects Team",
-    "url": "https://wpspecialprojects.wordpress.com"
+    "name": "Automattic",
+    "url": "https://automattic.com"
   },
   "license": "GPL-3.0-or-later",
   "keywords": [

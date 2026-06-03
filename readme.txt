@@ -1,5 +1,5 @@
 === Query Loop Load More ===
-Contributors: wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes, robrobsn, kimclow, dhansondesigns
+Contributors: automattic, wpspecialprojects, tommusrhodus, npagazani, geoffguillain, tiagonoronha, nateallen, glynnquelch, dhansondesigns, mlaetitia, fmfernandes, robrobsn, kimclow
 Tags: block editor, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.9

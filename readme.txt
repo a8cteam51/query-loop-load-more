@@ -3,7 +3,7 @@ Contributors: automattic, wpspecialprojects, tommusrhodus, npagazani, geoffguill
 Tags: block editor, query loop, gutenberg, full-site-editing, load more
 Requires at least: 6.2
 Tested up to: 6.9
-Stable tag: 1.0.18
+Stable tag: 1.0.19
 Requires PHP: 8.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -71,6 +71,11 @@ You can download the file from the [WordPress.org plugin library here.](https://
 
 
 == Changelog ==
+
+= 1.0.19 =
+* Fix - Infinite scroll not loading more posts when nothing follows the Query Loop on the page
+* Fix - Infinite scroll stopping when a loaded batch of posts was short
+* Fix - A failed request for more posts being retried in a tight loop
 
 = 1.0.18 =
 * Fix - Updated composer.json PHP requirement from 8.3 to 8.0 to match plugin requirements

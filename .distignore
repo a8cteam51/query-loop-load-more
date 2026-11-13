@@ -10,3 +10,5 @@ composer.lock
 package-lock.json
 package.json
 README.md
+AGENTS.md
+CLAUDE.md

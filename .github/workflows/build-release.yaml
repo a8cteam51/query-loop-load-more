@@ -32,7 +32,7 @@ jobs:
           npm run build
 
       - name: Zip Folder
-        run: zip -r ${{ github.event.repository.name }}.zip . -x ".git/*" ".github/*" "node_modules/*" ".gitignore" ".editorconfig" ".phpcs.xml" "composer.lock" "package.json" "package-lock.json"
+        run: zip -r ${{ github.event.repository.name }}.zip . -x ".git/*" ".github/*" "node_modules/*" ".gitignore" ".editorconfig" ".phpcs.xml" "composer.lock" "package.json" "package-lock.json" ".agents/*" "AGENTS.md" "CLAUDE.md"
 
       - name: Release
         uses: softprops/action-gh-release@v1

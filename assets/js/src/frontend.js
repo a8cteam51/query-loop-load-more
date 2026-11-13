@@ -25,7 +25,11 @@ const intersectionObserver = new window.IntersectionObserver(
 	},
 	{
 		threshold: 0.5,
-		rootMargin: '0px',
+		// The infinite scroll trigger has no size. When it is the last thing
+		// on the page it can sit a fraction of a pixel below the lowest point
+		// the page scrolls to, so it has to count as reached before it is
+		// inside the viewport.
+		rootMargin: '100px',
 	}
 );
 
@@ -153,18 +157,16 @@ const fetchPosts = ( target ) => {
 			//dispatch event
 			document.dispatchEvent( qllmLoadEnd );
 
+			// The observer only calls back when the trigger enters or leaves
+			// its range. If the new posts did not push the trigger out of
+			// range, nothing would load the next page, so observe it again:
+			// that always calls back once with where the trigger is now.
 			if (
+				button.isConnected &&
 				button.classList.contains( 'wp-load-more__infinite-scroll' )
 			) {
-				const bcr = button.getBoundingClientRect();
-
-				// fix not triggering the callback if the button is still visible
-				// if button is visible - toggle observing to ensure the
-				// Intersection observer triggers the callback again
-				if ( bcr.bottom > 0 && bcr.top < window.innerHeight ) {
-					intersectionObserver.unobserve( button );
-					intersectionObserver.observe( button );
-				}
+				intersectionObserver.unobserve( button );
+				intersectionObserver.observe( button );
 			}
 		} );
 };

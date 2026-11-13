@@ -38,6 +38,14 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 
 ## Changelog
 
+### 1.0.19
+* Fix - Infinite scroll not loading more posts when nothing follows the Query Loop on the page
+* Fix - Infinite scroll stopping when a loaded batch of posts was short
+* Fix - A failed request for more posts being retried in a tight loop
+
+### 1.0.18
+* Fix - Updated composer.json PHP requirement from 8.3 to 8.0 to match plugin requirements
+
 ### 1.0.17
 * Fix - potential issue infinite scroll not triggering if button is at the bottom of the viewport
 * Fix - Page parameter for inherited queries

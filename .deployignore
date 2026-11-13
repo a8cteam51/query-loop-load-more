@@ -2,3 +2,14 @@ node_modules/
 /.agents
 AGENTS.md
 CLAUDE.md
+
+# Built on the server, not in git: keep the deployed autoloader.
+/vendor/
+
+# Release-only files, as in .distignore
+/.wordpress-org/
+/.distignore
+/.editorconfig
+/.phpcs.xml
+/README.md
+/package-lock.json

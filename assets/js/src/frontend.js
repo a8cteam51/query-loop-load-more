@@ -67,6 +67,8 @@ const fetchPosts = ( target ) => {
 	//dispatch event
 	document.dispatchEvent( qllmLoadStart );
 
+	let loaded = false;
+
 	// Load posts via fetch from the button URL.
 	fetch( fetchUrl, {
 		method: 'GET',
@@ -81,6 +83,8 @@ const fetchPosts = ( target ) => {
 			throw new Error( 'Network response was not ok.' );
 		} )
 		.then( function ( data ) {
+			loaded = true;
+
 			// create temporary container to load fetched HTML
 			const temp = document.createElement( 'div' );
 			temp.innerHTML = data;
@@ -161,7 +165,10 @@ const fetchPosts = ( target ) => {
 			// its range. If the new posts did not push the trigger out of
 			// range, nothing would load the next page, so observe it again:
 			// that always calls back once with where the trigger is now.
+			// Not after a failed request, which would be retried straight
+			// away for as long as it keeps failing.
 			if (
+				loaded &&
 				button.isConnected &&
 				button.classList.contains( 'wp-load-more__infinite-scroll' )
 			) {

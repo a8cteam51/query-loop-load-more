@@ -38,6 +38,7 @@ addFilter(
 				infiniteScroll,
 				loadMoreText,
 				loadingText,
+				noMorePostsText,
 				updateUrl,
 				infiniteScrollColor,
 				layout,
@@ -231,6 +232,23 @@ addFilter(
 										onChange={ ( value ) =>
 											setAttributes( {
 												loadMoreText: value,
+											} )
+										}
+									/>
+
+									<TextControl
+										label={ __(
+											'No more posts text',
+											'query-loop-load-more'
+										) }
+										help={ __(
+											'Shown at the end of the list once every post has loaded. Leave empty to show nothing.',
+											'query-loop-load-more'
+										) }
+										value={ noMorePostsText }
+										onChange={ ( value ) =>
+											setAttributes( {
+												noMorePostsText: value,
 											} )
 										}
 									/>

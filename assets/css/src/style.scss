@@ -23,3 +23,13 @@
 		}
 	}
 }
+
+.wp-load-more__no-more-posts {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+// Hidden for as long as the button or infinite scroll trigger before it exists.
+.wp-block-button .wp-load-more__button + .wp-load-more__no-more-posts {
+	display: none;
+}

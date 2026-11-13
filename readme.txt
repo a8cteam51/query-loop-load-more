@@ -40,6 +40,7 @@ That's it! Your visitors can now load more posts by clicking the load more butto
 - **Loading Text**: Customize the text for the post loading state
 - **Infinite Scroll**: Choose this option to allow new posts to load automatically when users reach the bottom of the feed
 - **Color**: Customize the color of the load more button and the loading state icon when using the infinite scroll option
+- **No More Posts Text**: Set a text to show at the end of the list once every post has loaded
 - **Update URL**: Choose this option to update the browser's URL when loading more posts
 
 
@@ -73,6 +74,7 @@ You can download the file from the [WordPress.org plugin library here.](https://
 == Changelog ==
 
 = 1.0.19 =
+* Add - Optional text to show once every post has loaded
 * Fix - Infinite scroll not loading more posts when nothing follows the Query Loop on the page
 * Fix - Infinite scroll stopping when a loaded batch of posts was short
 * Fix - A failed request for more posts being retried in a tight loop

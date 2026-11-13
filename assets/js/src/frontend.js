@@ -132,7 +132,17 @@ const fetchPosts = ( target ) => {
 					intersectionObserver.unobserve( button );
 				}
 
-				button.closest( '.wp-block-buttons' )?.remove();
+				// A "no more posts" text after the button shows once the
+				// button is gone, so only the button is removed then.
+				if (
+					button.parentElement?.querySelector(
+						'.wp-load-more__no-more-posts'
+					)
+				) {
+					button.remove();
+				} else {
+					button.closest( '.wp-block-buttons' )?.remove();
+				}
 
 				return;
 			}

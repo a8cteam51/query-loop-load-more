@@ -210,6 +210,12 @@ class Plugin {
 			'default' => esc_html__( 'Loading...', 'query-loop-load-more' ),
 		);
 
+		// Text shown once every post has loaded. Empty shows nothing.
+		$settings['attributes']['noMorePostsText'] = array(
+			'type'    => 'string',
+			'default' => '',
+		);
+
 		// Update URL.
 		$settings['attributes']['updateUrl'] = array(
 			'type'    => 'boolean',
@@ -281,6 +287,13 @@ class Plugin {
 			';
 		}
 
+		// Text for the end of the list. It follows the button in the markup and
+		// stays hidden for as long as the button is there.
+		$no_more_posts = '';
+		if ( '' !== trim( $attributes['noMorePostsText'] ?? '' ) ) {
+			$no_more_posts = '<span class="wp-block-button__link wp-element-button wp-load-more__no-more-posts">' . esc_html( $attributes['noMorePostsText'] ) . '</span>';
+		}
+
 		// more posts available
 		if ( $page < $max_pages ) {
 
@@ -298,6 +311,9 @@ class Plugin {
 				$infinite_scroll_markup,
 				$is_infinite ? ' screen-reader-text' : '' // Note space at the beginning of the class name
 			);
+		} elseif ( $max_pages > 1 && '' !== $no_more_posts ) {
+			// The last page of a paginated list was requested directly: only the text is left to show.
+			$block_content = '';
 		} else {
 			// All posts loaded.
 			return '';
@@ -306,7 +322,7 @@ class Plugin {
 		return '
 			<div class="is-layout-flex wp-block-buttons">
 				<div class="wp-block-button aligncenter">
-					' . wp_kses_post( $block_content ) . '
+					' . wp_kses_post( $block_content . $no_more_posts ) . '
 				</div>
 			</div>
 		';
